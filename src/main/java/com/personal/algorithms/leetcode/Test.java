@@ -3,7 +3,6 @@ package com.personal.algorithms.leetcode;
 import static com.personal.algorithms.lists.LinkedListUtil.printLinkedList;
 
 import com.personal.algorithms.lists.LinkedListUtil;
-import com.personal.algorithms.lists.ListNode;
 
 public class Test {
 

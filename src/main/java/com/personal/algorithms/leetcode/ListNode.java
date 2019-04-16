@@ -1,4 +1,4 @@
-package com.personal.algorithms.lists;
+package com.personal.algorithms.leetcode;
 
 public class ListNode {
 

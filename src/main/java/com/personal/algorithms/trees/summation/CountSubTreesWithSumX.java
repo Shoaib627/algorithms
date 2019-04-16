@@ -1,6 +1,6 @@
 package com.personal.algorithms.trees.summation;
 
-import com.personal.algorithms.trees.TreeNode;
+import com.personal.algorithms.leetcode.TreeNode;
 
 public class CountSubTreesWithSumX {
 	

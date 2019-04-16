@@ -1,7 +1,7 @@
 package com.personal.algorithms.trees.checking;
 
+import com.personal.algorithms.leetcode.TreeNode;
 import com.personal.algorithms.trees.TreeGenerator;
-import com.personal.algorithms.trees.TreeNode;
 
 
 // Traverse the given binary tree. For each node check (recursively) 

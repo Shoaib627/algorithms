@@ -3,8 +3,8 @@ package com.personal.algorithms.trees.traversals.levelorder;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.personal.algorithms.leetcode.TreeNode;
 import com.personal.algorithms.trees.TreeGenerator;
-import com.personal.algorithms.trees.TreeNode;
 
 // Time Complexity =  O(n) since we are traversing through all the nodes
 // Space Complexity = O(n/2) ~ O(n) since queue size at max can have all the leaf nodes, max leaf nodes is n/2

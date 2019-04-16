@@ -1,5 +1,7 @@
 package com.personal.algorithms.trees;
 
+import com.personal.algorithms.leetcode.TreeNode;
+
 public class RecursiveTraversals {
 
 	public static void preorder(TreeNode node) {

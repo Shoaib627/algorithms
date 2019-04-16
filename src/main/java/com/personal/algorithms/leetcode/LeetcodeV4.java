@@ -6,14 +6,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
-import com.personal.algorithms.lists.ListNode;
-import com.personal.algorithms.trees.TreeNode;
+
 
 public class LeetcodeV4 {
 
@@ -1027,39 +1025,6 @@ public class LeetcodeV4 {
 		return true;
 	}
 
-	public int search(ArrayReader reader, int target) {
-
-		// find upper limit of target
-		int upper_limit = 1;
-
-		while (reader.get(upper_limit) < target) {
-			upper_limit = upper_limit * 2;
-		}
-		
-		return binarySearch(reader, 0, upper_limit, target);
-	}
-	
-	public int binarySearch(ArrayReader reader, int low, int high, int target) {
-
-		if (low <= high) {
-			int mid = low + (high - low) / 2;
-
-			if (reader.get(mid) == target) {
-				return mid;
-			}
-
-			else if (reader.get(mid) > target) {
-				return binarySearch(reader, low, mid - 1, target);
-			}
-
-			return binarySearch(reader, mid + 1, high, target);
-
-		}
-		return -1;
-	}
-	
-
-	
 	public void wiggleSort(int[] nums) {
 
 		boolean less = true;
@@ -1648,5 +1613,5 @@ public class LeetcodeV4 {
 		}
 		return false;
 	}
-		
+	
 }

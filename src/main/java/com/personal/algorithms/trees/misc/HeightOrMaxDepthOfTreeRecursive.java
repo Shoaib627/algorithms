@@ -1,7 +1,7 @@
 package com.personal.algorithms.trees.misc;
 
+import com.personal.algorithms.leetcode.TreeNode;
 import com.personal.algorithms.trees.TreeGenerator;
-import com.personal.algorithms.trees.TreeNode;
 
 // Height of tree is basically 1 + max( height(left_subtree), height(right_subtree))
 public class HeightOrMaxDepthOfTreeRecursive {

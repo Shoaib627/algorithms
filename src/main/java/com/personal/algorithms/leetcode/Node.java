@@ -1,4 +1,4 @@
-package com.personal.algorithms.trees;
+package com.personal.algorithms.leetcode;
 
 import java.util.List;
 

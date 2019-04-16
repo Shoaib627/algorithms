@@ -13,9 +13,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
-import com.personal.algorithms.trees.Node;
-import com.personal.algorithms.trees.TreeNode;
-
 public class LeetcodeV3 {
 
 	public static void main(String[] args) {

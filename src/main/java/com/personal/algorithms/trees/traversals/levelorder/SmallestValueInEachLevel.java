@@ -3,8 +3,8 @@ package com.personal.algorithms.trees.traversals.levelorder;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.personal.algorithms.leetcode.TreeNode;
 import com.personal.algorithms.trees.TreeGenerator;
-import com.personal.algorithms.trees.TreeNode;
 
 public class SmallestValueInEachLevel {
 

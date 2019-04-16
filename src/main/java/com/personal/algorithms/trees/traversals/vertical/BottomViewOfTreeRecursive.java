@@ -2,8 +2,8 @@ package com.personal.algorithms.trees.traversals.vertical;
 
 import java.util.TreeMap;
 
+import com.personal.algorithms.leetcode.TreeNode;
 import com.personal.algorithms.trees.TreeGenerator;
-import com.personal.algorithms.trees.TreeNode;
 
 public class BottomViewOfTreeRecursive {
 

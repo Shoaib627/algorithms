@@ -1,9 +1,11 @@
 package com.personal.algorithms.trees.printing;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
-import com.personal.algorithms.trees.TreeNode;
+import com.personal.algorithms.leetcode.TreeNode;
 
 
 
@@ -76,4 +78,51 @@ public class GetAllRootToLeafPaths {
 		
 		System.out.println(g.printRootToLeafPaths(root));
 	}
+	
+	
+	public int minDepth(TreeNode root) {
+
+		if (root == null) {
+			return 0;
+		}
+		int level = 0;
+
+		Queue<TreeNode> q = new LinkedList<>();
+		q.add(root);
+		q.add(null);
+
+		while (!q.isEmpty()) {
+			TreeNode node = q.poll();
+
+			if (node == null) {
+				if (q.isEmpty()) {
+					return level;
+				}
+
+				else {
+					level++;
+					q.add(null);
+				}
+
+			}
+
+			else {
+
+				if (node.left == null && node.right == null) {
+					return level;
+				}
+				if (node.left != null) {
+					q.add(node.left);
+				}
+
+				if (node.right != null) {
+					q.add(node.right);
+				}
+			}
+		}
+
+		return level;
+
+	}
+
 }

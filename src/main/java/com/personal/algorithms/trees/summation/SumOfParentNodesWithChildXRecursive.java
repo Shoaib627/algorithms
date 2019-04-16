@@ -1,7 +1,7 @@
 package com.personal.algorithms.trees.summation;
 
+import com.personal.algorithms.leetcode.TreeNode;
 import com.personal.algorithms.trees.TreeGenerator;
-import com.personal.algorithms.trees.TreeNode;
 
 public class SumOfParentNodesWithChildXRecursive {
 

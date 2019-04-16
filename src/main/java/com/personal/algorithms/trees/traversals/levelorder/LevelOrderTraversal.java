@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import com.personal.algorithms.trees.TreeNode;
+import com.personal.algorithms.leetcode.TreeNode;
 
 // Queue and delimeter approach
 // Basically if null acts a delimeter at the end of each level

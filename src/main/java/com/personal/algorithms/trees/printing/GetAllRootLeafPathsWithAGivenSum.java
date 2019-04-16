@@ -3,7 +3,7 @@ package com.personal.algorithms.trees.printing;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.personal.algorithms.trees.TreeNode;
+import com.personal.algorithms.leetcode.TreeNode;
 
 public class GetAllRootLeafPathsWithAGivenSum {
 

@@ -21,11 +21,9 @@ public class LeetCodeV5 {
 
 	public static void main(String[] args) {
 		
-		System.out.println(scoreOfParentheses("(()(()()))"));
-		int a = 10;
-		char c=(char)(a+'0');    
-
-		System.out.println(c);   
+	
+		
+		System.out.println(groupStrings(new String[] { "abc", "bcd", "acef", "xyz", "az", "ba", "a", "z" }));
 
 	}
 
@@ -1712,5 +1710,251 @@ public class LeetCodeV5 {
 		// only got here if we didn't return false
 		return true;
 	}
+
+	public int sum = 0;
+
+	public TreeNode convertBST(TreeNode root) {
+
+		if (root == null) {
+			return null;
+		}
+
+		inOrder(root);
+		System.out.println(sum);
+		preOrder(root);
+
+		return root;
+
+	}
+
+	public void inOrder(TreeNode root) {
+
+		if (root == null) {
+			return;
+		}
+
+		inOrder(root.left);
+		sum = sum + root.val;
+		inOrder(root.right);
+	}
+
+	public void preOrder(TreeNode root) {
+
+		if (root == null) {
+			return;
+		}
+
+		inOrder(root.left);
+		int temp = root.val;
+		root.val = sum;
+		sum = sum - temp;
+		inOrder(root.right);
+	}
+	
+	
+	static public List<List<String>> groupAnagrams(String[] strs) {
+
+		if (strs.length == 0) {
+			return new ArrayList<>();
+		}
+
+		Map<String, List<String>> map = new HashMap<>();
+
+		for (int i = 0; i < strs.length; i++) {
+
+			char[] arr = strs[i].toCharArray();
+			Arrays.sort(arr);
+			String s = new String(arr);
+			List<String> list = map.getOrDefault(s, new ArrayList<>());
+			list.add(strs[i]);
+
+			map.put(s, list);
+		}
+
+		List<List<String>> f = new ArrayList<>();
+
+		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+
+			f.add(entry.getValue());
+		}
+
+		return f;
+
+	}
+
+    static public Map<Character, Integer> getFrequencyMapV4(String str) {
+		Map<Character, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < str.length(); i++) {
+			map.put(str.charAt(i), map.getOrDefault(str.charAt(i), 0) + 1);
+		}
+		
+		System.out.println(map);
+
+		return map;
+	}
+	
+	
+	static public String getStringFromMap(Map<Character, Integer> map) {
+
+		StringBuffer b = new StringBuffer();
+
+		for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+
+			b.append(entry.getKey() + "_" + entry.getValue());
+		}
+
+		return b.toString();
+	}
+	
+	public static List<List<String>> groupStrings(String[] strings) {
+
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+
+		Map<String, String> lookupMap = new HashMap<>();
+
+		for (int i = 0; i < strings.length; i++) {
+
+			if (lookupMap.containsKey(strings[i])) {
+
+				String val = lookupMap.get(strings[i]);
+
+				List<String> res = map.get(val);
+
+				res.add(strings[i]);
+
+				map.put(val, res);
+			}
+
+			else {
+
+				List<String> seqList = getAllSequences(strings[i]);
+
+				for (int j = 0; j < seqList.size(); j++) {
+					lookupMap.put(seqList.get(j), strings[i]);
+				}
+
+				List<String> list = map.getOrDefault(strings[i], new ArrayList<>());
+				list.add(strings[i]);
+
+				map.put(strings[i], list);
+
+			}
+		}
+
+		List<List<String>> result = new ArrayList<>();
+
+		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+
+			result.add(entry.getValue());
+		}
+		return result;
+	}
+
+	public static List<String> getAllSequences(String str) {
+		List<String> result = new ArrayList<>();
+
+		String cur = str;
+		do {
+			result.add(cur);
+			cur = getNextSequence(cur);
+		} while (!cur.equals(str));
+		return result;
+	}
+
+	public static String getNextSequence(String str) {
+
+		char[] arr = str.toCharArray();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			int temp = (arr[i] + 1);
+
+			if (temp > 122) {
+				temp = temp - 26;
+			}
+
+			arr[i] = (char) (temp);
+
+		}
+
+		return new String(arr);
+
+	}
+	
+	public boolean isIsomorphic(String s, String t) {
+		
+		if(s.length()!=t.length())
+			return false;
+		
+		Map<Character, Integer> map = new HashMap<>();
+		int count = 1;
+		
+		int[] arr_1 = new int[s.length()];
+		int[] arr_2 = new int[t.length()];
+
+		
+		for(int i = 0; i < s.length(); i++) {
+			
+			if(!map.containsKey(s.charAt(i))) {
+				map.put(s.charAt(i), count);
+				arr_1[i] = count;
+				count ++;
+				
+			}
+			else {
+				arr_1[i] = map.get(s.charAt(i));
+			}
+		}
+
+		map = new HashMap<>();
+		count = 1;
+		for (int i = 0; i < t.length(); i++) {
+
+			if (!map.containsKey(t.charAt(i))) {
+				map.put(t.charAt(i), count);
+				arr_2[i] = count;
+				count++;
+
+			} else {
+				arr_2[i] = map.get(t.charAt(i));
+			}
+		}
+		
+		for (int i = 0; i < t.length(); i++) {
+			if(arr_1[i] != arr_2[i]) {
+				return false;
+			}
+		}
+	
+		return true;
+
+	}
+	
+	   public int getMinimumDifference(TreeNode root) {
+		   ArrayList<Integer> list = new ArrayList<>();
+		   inOrderV5(root, list);
+		   System.out.println(list);
+		   
+		   int diff = Integer.MAX_VALUE;
+		   for(int i = 0; i < list.size() - 1; i++) {
+			   if(list.get(i+1) - list.get(i ) < diff) {
+				   diff = list.get(i+1) - list.get(i );
+			   }
+		   }
+		   return diff;
+	    }
+	   
+
+		public void inOrderV5(TreeNode root, ArrayList<Integer> list ) {
+
+			if (root == null) {
+				return;
+			}
+
+			inOrderV5(root.left, list);
+			list.add(root.val);
+			inOrderV5(root.right, list);
+		}
 
 }

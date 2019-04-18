@@ -1,7 +1,5 @@
 package com.personal.algorithms.lists;
 
-import com.personal.algorithms.leetcode.ListNode;
-
 public class LinkedListUtil {
 
 	public static Integer getLinkedListLength(ListNode headNode) {

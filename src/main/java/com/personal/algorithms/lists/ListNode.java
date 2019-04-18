@@ -1,10 +1,10 @@
-package com.personal.algorithms.leetcode;
+package com.personal.algorithms.lists;
 
 public class ListNode {
 
 	public int val;
 
-	 public ListNode next;
+	public ListNode next;
 
 	public ListNode(int val) {
 		super();

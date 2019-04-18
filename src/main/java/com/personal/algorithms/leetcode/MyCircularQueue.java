@@ -1,7 +1,5 @@
 package com.personal.algorithms.leetcode;
 
-import java.util.ArrayList;
-
 class MyCircularQueue {
 
     /** Initialize your data structure here. Set the size of the queue to be k. */

@@ -1,35 +1,33 @@
 package com.personal.algorithms.leetcode;
 
-import java.util.ArrayList;
+import com.personal.algorithms.lists.PrintLinkedList;
 
 public class Test22 {
 
 	public static void main(String[] args) {
 
-		ArrayList<Integer> arr = new ArrayList<>();
-		arr.add(1);
-		arr.add(2);
-		arr.add(3);
-		arr.add(5);
+		MyLinkedList obj = new MyLinkedList();
+	
+		PrintLinkedList.printIterative(obj.head);
+		
+		obj.addAtHead(1);
+		obj.addAtTail(3);
+		PrintLinkedList.printIterative(obj.head);
 
-		System.out.println(binarySearch(arr, 0, arr.size() - 1, 4));
+		obj.addAtIndex(1,2);
+		PrintLinkedList.printIterative(obj.head);
+
+		int param_4 = obj.get(-1);
+
+		obj.deleteAtIndex(1);
+		int param_5 = obj.get(-3);
+
+
+
+
+		System.out.println("Done");
+
 
 	}
 
-	public static int binarySearch(ArrayList<Integer> arr, int start, int end, int target) {
-		if (start <= end) {
-
-			int mid = start + ((end - start) / 2);
-
-			if (arr.get(mid) == target) {
-				return mid;
-			}
-
-			else if (arr.get(mid) > target) {
-				return binarySearch(arr, start, mid - 1, target);
-			}
-			return binarySearch(arr, mid + 1, end, target);
-		}
-		return start;
-	}
 }

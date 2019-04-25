@@ -7,16 +7,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Random;
 
-import com.personal.algorithms.lists.LinkedListGenerator;
 import com.personal.algorithms.lists.ListNode;
-import com.personal.algorithms.lists.PrintLinkedList;
 
 public class LeetCodeV6 {
 
 	public static void main(String[] args) {
-		ListNode node2 = LinkedListGenerator.getList(new int[] { 1, 4, 3, 2, 5, 2 });
-		PrintLinkedList.printIterative(partition(node2, 3));
+		
+		Random s = new Random();
+
+	System.out.println(s.nextInt(4));
+	System.out.println(s.nextInt(4));
+	System.out.println(s.nextInt(4));
+	System.out.println(s.nextInt(4));
+	System.out.println(s.nextInt(4));
+	System.out.println(s.nextInt(4));
+
+	
+	
+		//Solution obj = new Solution(new int[] { 1, 3 });
+		//	 int param_1 = obj.pickIndex();
 	}
 
 	public TreeNode bstFromPreorder(int[] preorder) {
@@ -377,7 +388,6 @@ public class LeetCodeV6 {
 	}
 	
 	Map<Character, Integer> map = new HashMap<>();
-	private Map<Character, Integer> fmap;
 
 	public String customSortStringV2(String S, String T) {
 
@@ -538,16 +548,463 @@ public class LeetCodeV6 {
 			result.append(str[i]);
 		}
 
-		String lol = reverseWordsV2(result.toString());
+		String res = reverseWordsV2(result.toString());
 
-		System.out.println(lol);
+		for (int i = 0; i < res.length(); i++) {
 
-		str = lol.toCharArray();
+			str[i] = res.charAt(i);
+		}
+	}
+	
+	
 
-		System.out.println(Arrays.toString(str));
+	public List<String> findAndReplacePattern(String[] words, String pattern) {
+		String str = getPattern(pattern);
+		List<String> result = new ArrayList<>();
+
+		for (int i = 0; i < words.length; i++) {
+			if (str.equals(getPattern(words[i])))
+				result.add(words[i]);
+		}
+		return result;
+	}
+
+	public String getPattern(String str) {
+
+		int count = 0;
+		StringBuffer b = new StringBuffer();
+		Map<Character, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < str.length(); i++) {
+			Integer c = map.get(str.charAt(i));
+			if (c == null) {
+				c = count;
+				map.put(str.charAt(i), c);
+				count++;
+			}
+			b.append(c);
+
+		}
+		return b.toString();
+	}
+
+	public String findContestMatch(int n) {
+		List<String> res = new ArrayList<>();
+		for (int i = 1; i <= n; i++) {
+			res.add(String.valueOf(i));
+		}
+
+		while (res.size() > 1) {
+			System.out.println(res);
+
+			res = group(res);
+			
+		}
+
+		return res.get(0);
+	}
+
+	public List<String> group(List<String> res) {
+		List<String> result = new ArrayList<>();
+		for (int i = 0; i < res.size() / 2; i++) {
+			String s = "(" + res.get(i) + "," + res.get(res.size() - 1 - i) + ")";
+			result.add(s);
+		}
+		return res;
+	}
+	
+	
+	public static String shiftingLetters(String S, int[] shifts) {
+		StringBuilder b = new StringBuilder("");
+		for (int i = 0; i < shifts.length; i++) {
+			for (int j = 0; j <= i; j++) {
+				
+				char x;
+				if(b.length() > j ) {
+					x = b.charAt(j);
+				}
+				
+				else {
+					x = S.charAt(j);
+				}
+				if (j < i)
+					b.setCharAt(j, shift(x, shifts[i]));
+				else {
+					b.append(shift(x, shifts[i]));
+				}
+			}
+			System.out.println(b.toString());
+		}
+		return b.toString();
+	}
+	
+	
+	public static char shift(char c, int times) {
+		if (times > 25) {
+			times = times % 26;
+		}
+		int k = c + times;
+		if (k > 122) {
+			k = k - 26;
+		}
+		return (char) (k);
+	}
+	
+	
+  	public int firstMissingPositive(int[] nums) {
+
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] > 0)
+
+			map.put(nums[i], 0);
+		}
+
+		for (int i = 1; i <= Integer.MAX_VALUE; i++) {
+
+			if (!map.containsKey(i)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+  	
+
+   
+
+	
+    public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        long start = lower;
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == start) {
+                start++;
+                continue;
+            }
+            
+            if (nums[i] > start) {
+                res.add(start + (nums[i] - 1 == start ? "" : ("->" + (nums[i] - 1))));
+                start = (long)nums[i] + 1;
+            }
+        }
+                
+        if (start <= upper) {
+            res.add(start +  (upper == start ? "" : "->" + upper));
+        }
+        
+        return res;
+    }
+    
+	public int minFlipsMonoIncr(String S) {
+
+		int first_occurence_of_one = S.indexOf('1');
+
+		int last_occurence_of_zero = S.lastIndexOf('0');
+
+		if (last_occurence_of_zero == -1 || first_occurence_of_one == S.length() - 1 || first_occurence_of_one == -1) {
+			return 0;
+		}
+
+		int zero_count = 0;
+		int one_count = 0;
 		
+		for (int i = first_occurence_of_one; i <= last_occurence_of_zero; i++) {
+
+			if (S.charAt(i) == '1') {
+				one_count++;
+			} else {
+				zero_count++;
+			}
+		}
+
+		return Math.min(zero_count, one_count);
+	}
+	
+	
+	public int threeSumSmaller(int[] nums, int target) {
 		
+		int count = 0;
+		
+		for(int i = 0;  i < nums.length; i++) {
+			
+			for(int j = i + 1;  j < nums.length; j++) {
+				
+				for(int k = j + 1;  k < nums.length; k++) {
+					
+					if(nums[i]  + nums[j] + nums[k] < target) {
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+	
+	
+	public static int shipWithinDays(int[] weights, int D) {
+
+		int max_weight = Integer.MIN_VALUE;
+		int sum = 0;
+
+		for (int i = 0; i < weights.length; i++) {
+			sum = sum + weights[i];
+			if (weights[i] > max_weight) {
+				max_weight = weights[i];
+			}
+		}
+
+		int high = sum;
+		int low = max_weight;
+
+		while (low <= high) {
+			int mid = (low + high) / 2;
+			boolean can = isCapacityEnough(weights, D, mid);
+			if (can) {
+				high = mid - 1;
+			} else {
+				low = mid + 1;
+			}
+		}
+		return low;
 
 	}
 
+	public static int binarySearch(int[] weights, int D, int min, int max) {
+		if (min <= max) {
+
+			int mid = min + ((max - min) / 2);
+
+			if (isCapacityEnough(weights, D, mid) && !isCapacityEnough(weights, D, mid - 1)) {
+				return mid;
+			}
+
+			else if (isCapacityEnough(weights, D, mid)) {
+				return binarySearch(weights, D, min, mid - 1);
+			}
+			return binarySearch(weights, D, mid + 1, max);
+		}
+		return min;
+	}
+
+	public static boolean isCapacityEnough(int[] weights, int D, int capacity) {
+		int days = D;
+		int weight_per_day = 0;
+		for (int i = 0; i < weights.length; i++) {
+
+			if (weights[i] > capacity) {
+				return false;
+			} else {
+
+				if (weight_per_day + weights[i] > capacity) {
+					weight_per_day = weights[i];
+					days--;
+				} else {
+					weight_per_day = weight_per_day + weights[i];
+				}
+			}
+		}
+		return days > 0;
+	}
+
+	public int numRabbits(int[] answers) {
+
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < answers.length; i++) {
+			Integer c = map.getOrDefault(answers[i], 0);
+			map.put(answers[i], c + 1);
+		}
+
+		int sum = 0;
+		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+			if (entry.getKey() == 0)
+				sum = sum + entry.getValue();
+			else
+
+				sum += entry.getKey() + 1;
+		}
+
+		return sum;
+	}
+	
+	
+
+	public String licenseKeyFormatting(String S, int K) {
+
+		StringBuffer b = new StringBuffer();
+		int count = 0;
+		for (int i = 0; i < S.length(); i++) {
+			char c = S.charAt(i);
+			if (c != '-') {
+				b.append(Character.isLetter(c) ? Character.toUpperCase(c) : c);
+				count++;
+			}
+		}
+
+		if (count == 0) {
+			return "";
+		}
+
+		int r = count % K;
+
+		if (r == 0) {
+			r = K;
+		}
+
+		StringBuffer res = new StringBuffer();
+		res = res.append(b.substring(0, r));
+
+		if (r < b.length())
+			res.append("-");
+		
+		int temp = 0;
+		for (int i = r; i < b.length(); i++) {
+			temp++;
+			res.append(b.charAt(i));
+
+			if (temp % K == 0 && i != b.length() - 1) {
+				res.append("-");
+				temp = 0;
+			}
+		}
+		return res.toString();
+	}
+	
+	
+	
+	public int numIslands(char[][] grid) {
+
+		// Search for one
+		// increment counter
+		// Sink the surroundings
+
+		int count = 0;
+
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+
+				if (grid[i][j] == '1') {
+					count++;
+					changeLandToWater(grid, i, j);
+				}
+			}
+		}
+		return count;
+	}
+	
+	private void changeLandToWater(char[][] grid, int i, int j) {
+
+		if (i > (grid.length - 1) || i < 0 || j > grid[i].length - 1 || j < 0 || grid[i][j] == '0') {
+			return;
+		}
+
+		grid[i][j] = '0';
+
+		changeLandToWater(grid, i + 1, j);
+		changeLandToWater(grid, i - 1, j);
+		changeLandToWater(grid, i, j + 1);
+		changeLandToWater(grid, i, j - 1);
+	}
+	
+	
+	
+	public int maxAreaOfIsland(int[][] grid) {
+
+		int max_area = 0;
+
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+
+				if (grid[i][j] == 1) {
+
+					max_area = Math.max(max_area, changeLandToWaterAndGetArea(grid, i, j));
+				}
+			}
+		}
+		return max_area;
+	}
+
+	private int changeLandToWaterAndGetArea(int[][] grid, int i, int j) {
+
+		if (i > (grid.length - 1) || i < 0 || j > grid[i].length - 1 || j < 0 || grid[i][j] == 0) {
+			return 0;
+		}
+
+		grid[i][j] = 0;
+
+		int count = 1;
+
+		count += changeLandToWaterAndGetArea(grid, i + 1, j);
+		count += changeLandToWaterAndGetArea(grid, i - 1, j);
+		count += changeLandToWaterAndGetArea(grid, i, j + 1);
+		count += changeLandToWaterAndGetArea(grid, i, j - 1);
+
+		return count;
+	}
+
+	public int islandPerimeter(int[][] grid) {
+		int perimeter = 0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j] == 1) {
+					perimeter += countPerimeter(grid, i, j);
+				}
+			}
+		}
+		return perimeter;
+	}
+	
+	public int countPerimeter(int[][] grid, int i, int j) {
+		// For element check if all sides i.e up, down, left, right.
+		// if boundary or 0 increment 1;
+
+		int count = 0;
+		if (i - 1 < 0 || grid[i - 1][j] == 0) {
+			count++;
+		}
+
+		if (i + 1 > grid[i].length || grid[i + 1][j] == 0) {
+			count++;
+		}
+
+		if (j - 1 < 0 || grid[i][j - 1] == 0) {
+			count++;
+		}
+
+		if (j + 1 > grid[i].length || grid[i][j + 1] == 0) {
+			count++;
+		}
+
+		return count;
+	}
+	
+	public int[] productExceptSelf(int[] nums) {
+
+		int[] left = new int[nums.length];
+		int[] right = new int[nums.length];
+
+		left[0] = 1;
+
+		for (int i = 1; i < nums.length; i++) {
+
+			left[i] = nums[i - 1] * left[i - 1];
+		}
+
+		right[nums.length - 1] = 1;
+
+		for (int i = nums.length - 2; i >= 0; i--) {
+			right[i] = nums[i + 1] * left[i + 1];
+
+		}
+
+		int[] result = new int[nums.length];
+
+		for (int i = 0; i < nums.length; i++) {
+
+			result[i] = left[i] * right[i];
+		}
+
+		return result;
+	}
 }

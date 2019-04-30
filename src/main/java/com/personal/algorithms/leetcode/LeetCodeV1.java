@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class LeetCode {
+public class LeetCodeV1 {
 
 	public static void main(String[] args) {
 		

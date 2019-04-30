@@ -994,7 +994,7 @@ public class LeetCodeV6 {
 		right[nums.length - 1] = 1;
 
 		for (int i = nums.length - 2; i >= 0; i--) {
-			right[i] = nums[i + 1] * left[i + 1];
+			right[i] = nums[i + 1] * right[i + 1];
 
 		}
 
@@ -1007,4 +1007,69 @@ public class LeetCodeV6 {
 
 		return result;
 	}
+	
+	public int getImportance(List<Employee> employees, int id) {
+		
+		Map<Integer,Employee> map = new HashMap<>();
+		
+		for (int i = 0; i < employees.size(); i++) {
+			map.put(employees.get(i).id , employees.get(i));
+		}
+
+
+		return getImportance(map, id);
+	}
+	
+	public int getImportance(Map<Integer, Employee> map, int id) {
+
+		Employee employee = map.get(id);
+		int importance = 0;
+		if (employee != null) {
+			
+			importance = employee.importance;
+			
+			if (employee.subordinates != null && employee.subordinates.isEmpty()) {
+				for (int i = 0; i < employee.subordinates.size(); i++) {
+					importance += getImportance(map, employee.subordinates.get(i));
+				}
+			}
+		}
+		return importance;
+	}
+	
+	public int depthSumInverse(List<NestedInteger> nestedList) {
+		System.out.println(getDepth(nestedList));
+		return depthSum(nestedList, getDepth(nestedList));
+	}
+
+	public int depthSum(List<NestedInteger> nestedList, int depth) {
+		int sum = 0;
+		for (NestedInteger n : nestedList) {
+			if (n.isInteger()) {
+				sum = sum + n.getInteger() * depth;
+			} else {
+				sum = sum + depthSum(n.getList(), depth - 1);
+			}
+		}
+		return sum;
+	}
+	
+	public int getDepth(List<NestedInteger> nestedList) {
+		
+		int max = 0;
+		for (NestedInteger n : nestedList) {
+			if (n.isInteger()) {
+				return 1;
+			} else {
+				max = Math.max(max, getDepth(n.getList()) + 1);
+			}
+		}
+		return max;
+	}
+
+	public int[] sortArray(int[] nums) {
+		Arrays.sort(nums);
+		return nums;
+	}
+	
 }

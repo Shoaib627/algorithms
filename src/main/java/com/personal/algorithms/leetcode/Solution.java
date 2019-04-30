@@ -1,47 +1,30 @@
 package com.personal.algorithms.leetcode;
 
-import java.util.Random;
+import java.util.Stack;
 
 class Solution {
 
-	int[] arr;
+	public NestedInteger deserialize(String s) {
 
-	int sum;
+		Stack<Character> stack = new Stack<>();
+		for (int i = 0; i < s.length(); i++) {
 
-	public Solution(int[] w) {
-
-		this.arr = new int[w.length];
-
-		this.sum = 0;
-		for (int i = 0; i < w.length; i++) {
-
-			arr[i] = sum + w[i];
-			sum = sum + w[i];
-		}
-
-	}
-
-	public int pickIndex() {
-		Random s = new Random();
-		if (sum == 1)
-			return 0;
-		return binarySearch(arr, 0, arr.length - 1, s.nextInt(sum - 1) + 1);
-	}
-
-	public static int binarySearch(int[] arr, int min, int max, int target) {
-		if (min <= max) {
-
-			int mid = min + ((max - min) / 2);
-
-			if (mid - 1 >= 0 && arr[mid] >= target && arr[mid - 1] < target) {
-				return mid;
+			if (s.charAt(i) != ']') {
+				stack.push(s.charAt(i));
 			}
 
-			else if (arr[mid] > target) {
-				return binarySearch(arr, min, mid - 1, target);
+			else {
+				while (stack.peek() == '[') {
+
+				}
 			}
-			return binarySearch(arr, mid + 1, max, target);
 		}
-		return min;
+
+		int start_index = 0;
+		while (start_index < s.length()) {
+
+		}
+
+		return null;
 	}
 }

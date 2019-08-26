@@ -2,12 +2,15 @@ package com.personal.algorithms.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.Set;
 
 import com.personal.algorithms.lists.ListNode;
 
@@ -15,16 +18,16 @@ public class LeetCodeV6 {
 
 	public static void main(String[] args) {
 		
-		Random s = new Random();
-
-	System.out.println(s.nextInt(4));
-	System.out.println(s.nextInt(4));
-	System.out.println(s.nextInt(4));
-	System.out.println(s.nextInt(4));
-	System.out.println(s.nextInt(4));
-	System.out.println(s.nextInt(4));
 
 	
+	//System.out.println(compress(new char[] {'a', 'a', 'b', 'b', 'c', 'c', 'c'}));
+
+	
+	
+	String str  = 				"thestoryofleetcodeandme";
+	
+	
+	System.out.println(str.substring(6, 5));
 	
 		//Solution obj = new Solution(new int[] { 1, 3 });
 		//	 int param_1 = obj.pickIndex();
@@ -1072,4 +1075,886 @@ public class LeetCodeV6 {
 		return nums;
 	}
 	
+	// Time O(n), Space O(n)
+	public String removeVowels(String S) {
+
+		char[] arr = S.toCharArray();
+
+		StringBuffer b = new StringBuffer();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			if (!(arr[i] == 'a' || arr[i] == 'e' || arr[i] == 'i' || arr[i] == 'o' || arr[i] == 'u')) {
+				b.append(arr[i]);
+			}
+		}
+
+		return b.toString();
+	}
+	
+	
+	// Time O(n), Space O(n)
+	public String defangIPaddr(String address) {
+
+		char[] arr = address.toCharArray();
+
+		StringBuffer b = new StringBuffer();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			if (arr[i] == '.') {
+				b.append("[.]");
+			} else {
+				b.append(arr[i]);
+			}
+
+		}
+
+		return b.toString();
+	}
+	
+	public boolean isArmstrong(int N) {
+
+		int k = String.valueOf(N).length();
+
+		int n = N;
+
+		int sum = 0;
+
+		while (n > 0) {
+
+			int d = n % 10;
+			n = n / 10;
+
+			sum += Math.pow(d, k);
+
+		}
+
+		return N == sum;
+	}
+	
+	
+	public int fixedPoint(int[] A) {
+
+		for (int i = 0; i < A.length; i++) {
+
+			if (i == A[i]) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	
+	
+	public int sumOfDigits(int[] A) {
+
+		int min = A[0];
+
+		for (int i = 1; i < A.length; i++) {
+
+			if (min > A[i]) {
+				min = A[i];
+			}
+		}
+		int sum = 0;
+		System.out.println(min);
+		while (min > 0) {
+			int r = min % 10;
+			min = min / 10;
+
+			sum = sum + r;
+		}
+
+		return sum % 2 == 0 ? 0 : 1;
+	}
+	
+	
+	public int largestUniqueNumber(int[] A) {
+
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < A.length; i++) {
+			map.put(A[i], map.getOrDefault(A[i], 0) + 1);
+		}
+
+		Integer max = -1;
+
+		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+
+			if (entry.getValue() == 1 && entry.getKey() > max) {
+				max = entry.getKey();
+			}
+		}
+
+		return max;
+
+	}
+	
+	public class intComparator implements Comparator<Map.Entry<Integer, Integer>> {
+
+		@Override
+		public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
+
+			if (o1.getValue() < o2.getValue()) {
+				return -1;
+			}
+
+			else if (o1.getValue() > o2.getValue()) {
+				return 1;
+			}
+
+			return -Integer.compare(o1.getKey(), o2.getKey());
+		}
+	}
+	
+	public String[] findOcurrences(String text, String first, String second) {
+
+		String[] words = text.split(" ");
+
+		List<String> list = new ArrayList<>();
+
+		for (int i = 0; i < words.length - 2; i++) {
+
+			if (words[i].equals(first) && words[i + 1].equals(second)) {
+				list.add(words[i + 2]);
+			}
+		}
+
+		return list.toArray(new String[list.size()]);
+	}
+	
+	//[34,23,1,24,75,33,54,8]
+	// 1, 8, 23, 24, 33, 34, 54, 75
+	
+	public int twoSumLessThanK(int[] A, int K) {
+
+		int x = -1;
+		Arrays.sort(A);
+		for (int i = 0; i < A.length; i++) {
+
+			if (A[i] > K) {
+				x = i - 1;
+				break;
+			}
+		}
+
+		if (x == -1) {
+			return -1;
+		}
+
+		else {
+			int a = 0;
+			int b = x;
+			
+			int max = -1;
+
+			while (a < b) {
+
+				if (A[a] + A[b] >= 60) {
+					b--;
+				}
+
+				else {
+					if(A[a] + A[b] > max) {
+						max = A[a] + A[b];
+					}
+					a++;
+				}
+			}
+			return max;
+
+		}
+
+	}
+	
+	public int tribonacci(int n) {
+
+		if (n == 0)
+			return 0;
+
+		if (n == 1)
+			return 1;
+
+		if (n == 2)
+			return 1;
+
+		int a = 0;
+		int b = 1, c = 1;
+
+		int d = 0;
+		for (int i = 3; i <= n; i++) {
+
+			d = a + b + c;
+			a = b;
+			b = c;
+			c = d;
+		}
+
+		return d;
+	}
+	
+	
+	public int numberOfDays(int Y, int M) {
+
+		if (M == 1 || M == 3 || M == 5 || M == 7 || M == 8 || M == 10 || M == 12) {
+			return 30;
+		}
+
+		else if (M == 4 || M == 6 || M == 9 || M == 11) {
+			return 31;
+		}
+
+		else {
+
+			boolean leap = false;
+			if (Y % 4 == 0) {
+				if (Y % 100 == 0) {
+					if (Y % 400 == 0)
+						leap = true;
+					else
+						leap = false;
+				} else
+					leap = true;
+			} else
+				leap = false;
+
+			return leap ? 29 : 28;
+		}
+
+	}
+	
+	public boolean divisorGame(int N) {
+
+		for (int i = 2; i <= Math.sqrt(N); i++) {
+			if (N % i == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean confusingNumber(int N) {
+
+		char[] arr = String.valueOf(N).toCharArray();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			if (arr[i] == '2' || arr[i] == '3' || arr[i] == '4' || arr[i] == '5' || arr[i] == '7') {
+				return false;
+			}
+		}
+
+		for (int i = 0; i < arr.length; i++) {
+
+			if (arr[i] == '6') {
+				arr[i] = '9';
+			}
+
+			else if (arr[i] == '9') {
+				arr[i] = '6';
+			}
+		}
+
+		StringBuilder input1 = new StringBuilder();
+		input1.append(arr);
+		input1.reverse();
+
+		return !input1.toString().equals(String.valueOf(N));
+	}
+	
+	
+	public boolean rotateString(String A, String B) {
+
+		int x = A.length();
+		int y = B.length();
+
+		if (x != y) {
+			return false;
+		}
+
+		if (x == 0 && y == 0) {
+			return true;
+		}
+
+		int l = x;
+
+		StringBuilder input1 = new StringBuilder(A);
+
+		while (l > 0) {
+
+			String str = input1.substring(0, 1);
+			input1.replace(0, 1, "");
+			input1.append(str);
+			l--;
+
+			if (input1.toString().equals(B)) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+	
+	public int heightChecker(int[] heights) {
+
+		int[] copy = Arrays.copyOf(heights, heights.length);
+		Arrays.sort(heights);
+
+		int x = 0;
+		for (int i = 0; i < copy.length; i++) {
+
+			if (copy[i] != heights[i]) {
+				x++;
+			}
+		}
+
+		return x;
+
+	}
+	
+	public int[] distributeCandies(int candies, int num_people) {
+
+		int[] arr = new int[num_people];
+
+		int c = 1;
+		int i = 0;
+		while (candies > 0) {
+
+			arr[i] += c;
+			c += 1;
+
+			i++;
+			candies--;
+
+			if (i == num_people)
+				i = 0;
+
+		}
+		
+		return arr;
+	}
+	
+	public int thirdMax(int[] nums) {
+		Arrays.sort(nums);
+		return nums[nums.length - 3];
+	}
+	
+	public int countCharacters(String[] words, String chars) {
+
+		int sum = 0;
+
+		Map<Character, Integer> map = getCharFrequencyMap(chars);
+
+		for (int i = 0; i < words.length; i++) {
+
+			if (canBeformed(words[i], map))
+				sum += words[i].length();
+		}
+		return sum;
+	}
+
+	public boolean canBeformed(String word, Map<Character, Integer> chars) {
+
+		Map<Character, Integer> map = getCharFrequencyMap(word);
+
+		for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+
+			if (entry.getValue() > chars.getOrDefault(entry.getKey(),0)) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public Map<Character, Integer> getCharFrequencyMap(String str) {
+		Map<Character, Integer> map = new HashMap<>();
+
+		char[] arr = str.toCharArray();
+
+		for (int i = 0; i < arr.length; i++) {
+			map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+		}
+
+		return map;
+	}
+	
+	
+	public int lastStoneWeight(int[] stones) {
+
+		PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder());
+
+		for (int i = 0; i < stones.length; i++) {
+			q.add(stones[i]);
+		}
+
+		int y = 0;
+		int x = 0;
+
+		while (!q.isEmpty()) {
+
+			y = q.poll();
+
+			if (!q.isEmpty()) {
+				x = q.poll();
+			} else {
+				x = 0;
+			}
+
+			if (q.size() <= 1) {
+				break;
+			} else {
+				if (y - x > 0) {
+					q.add(y - x);
+				}
+			}
+		}
+
+		return q.isEmpty() ? 0 : q.peek();
+
+	}
+	
+	public int[][] highFive(int[][] items) {
+
+		Map<Integer, PriorityQueue<Integer>> map = new HashMap<>();
+
+		for (int i = 0; i < items.length; i++) {
+
+			PriorityQueue<Integer> list = map.getOrDefault(items[i][0], new PriorityQueue<>(Collections.reverseOrder()));
+			list.add(items[i][1]);
+			map.put(items[i][0], list);
+		}
+
+		int[][] result = new int[map.size()][2];
+
+		int i = 0;
+
+		for (Map.Entry<Integer, PriorityQueue<Integer>> entry : map.entrySet()) {
+
+			PriorityQueue<Integer> list = entry.getValue();
+
+			int[] a = new int[2];
+
+			a[0] = entry.getKey();
+			a[1] = (list.poll() + list.poll() + list.poll() + list.poll() + list.poll()) / 5;
+
+			result[i] = a;
+
+			i++;
+		}
+
+		return result;
+	}
+	
+	
+	
+	public static int compress(char[] chars) {
+
+		char current = chars[0];
+		int count = 1;
+
+		StringBuffer b = new StringBuffer();
+
+		for (int i = 1; i < chars.length; i++) {
+
+			if (chars[i] != (char) current) {
+				b.append(current);
+
+				if (count > 1) {
+					b.append(count);
+
+				}
+
+				count = 1;
+				current = chars[i];
+			}
+
+			else {
+				count++;
+			}
+
+		}
+
+		b.append(current);
+
+		if (count > 1) {
+			b.append(count);
+
+		}
+		chars = b.toString().toCharArray();		
+		System.out.println(Arrays.toString(chars));
+
+		return chars.length;
+
+	}
+	
+	public int dayOfYear(String date) {
+
+		String[] arr = date.split("-");
+		int year = Integer.parseInt(arr[0]);
+		int month = Integer.parseInt(arr[1]);
+		int day = Integer.parseInt(arr[2]);
+
+		boolean isleap = isLeapYear(year);
+
+		int[] days = new int[12];
+
+		days[1] = 31;
+		days[2] = isleap ? 29 : 28;
+		days[3] = 31;
+		days[4] = 30;
+		days[5] = 31;
+		days[6] = 30;
+		days[7] = 31;
+		days[8] = 31;
+		days[9] = 30;
+		days[10] = 31;
+		days[11] = 30;
+		days[12] = 31;
+
+		int count = 0;
+
+		for (int i = 1; i < month; i++) {
+			count += days[i];
+		}
+
+		count += day;
+		return count;
+	}
+
+	public boolean isLeapYear(int Y) {
+		boolean leap = false;
+		if (Y % 4 == 0) {
+			if (Y % 100 == 0) {
+				if (Y % 400 == 0)
+					leap = true;
+				else
+					leap = false;
+			} else
+				leap = true;
+		} else
+			leap = false;
+
+		return leap;
+	}
+
+	       
+	public int[][] indexPairs(String text, String[] words) {
+
+		List<List<Integer>> list = new ArrayList<>();
+		
+		Arrays.sort(words, new java.util.Comparator<String>() {
+		    @Override
+		    public int compare(String s1, String s2) {
+		        // TODO: Argument validation (nullity, length)
+		        return s1.length() - s2.length();// comparision
+		    }
+		});
+
+		for (int i = 0; i < text.length(); i++) {
+
+			for (String word : words) {
+
+				if (text.length() > i + word.length() && text.substring(i, i + word.length()).equals(word)) {
+					List<Integer> l = new ArrayList<>();
+					l.add(i);
+					l.add(i + word.length() - 1);
+					list.add(l);
+				}
+			}
+		}
+
+		int[][] r = new int[list.size()][2];
+
+		for (int i = 0; i < list.size(); i++) {
+			r[i][0] = list.get(i).get(0);
+			r[i][1] = list.get(i).get(1);
+		}
+
+		return r;
+	}
+	
+	public int numKLenSubstrNoRepeats(String S, int K) {
+
+		int count = 0;
+		for (int i = 0; i < S.length(); i++) {
+
+			if (S.length() > i + 5 && checkIfStringHasDuplicateCharacters(S.substring(i, i + 5))) {
+				count++;
+			}
+		}
+
+		return count;
+
+	}
+	
+	public boolean checkIfStringHasDuplicateCharacters(String str) {
+
+		Map<Character, Integer> map3 = getCharFrequencyMap(str);
+
+		for (Map.Entry<Character, Integer> entry : map3.entrySet()) {
+
+			if (entry.getValue() > 1) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	public int maxCount(int m, int n, int[][] ops) {
+
+		int[][] arr = new int[m - 1][n - 1];
+
+		for (int i = 0; i < ops.length; i++) {
+
+			int x = ops[i][0];
+			int y = ops[i][1];
+			
+			System.out.println(x);
+			System.out.println(y);
+
+
+			for (int j = 0; j < x; j++) {
+
+				for (int k = 0; k < y; k++) {
+
+					arr[j][k] += 1;
+
+				}
+			}
+
+		}
+
+		int max = 0;
+
+		for (int i = 0; i < m; i++) {
+
+			for (int j = 0; j < n; j++) {
+
+				if (arr[i][j] > max) {
+					max = arr[i][j];
+				}
+			}
+		}
+
+		int c = 0;
+		for (int i = 0; i < m; i++) {
+
+			for (int j = 0; j < n; j++) {
+
+				if (arr[i][j] == max) {
+					c++;
+				}
+			}
+		}
+
+		return c;
+	}
+	
+	// abcdef
+	
+ 	public List<String> findRepeatedDnaSequences(String s) {
+
+		Map<String, Integer> map = new HashMap<>();
+		Set<String> list = new HashSet<>();
+
+		for (int i = 0; i <= s.length() - 10; i++) {
+
+            String lol = s.substring(i, 10 + i);
+			Integer c = map.getOrDefault(lol, 0);
+            
+            if(c > 0){
+                list.add(lol);
+            }
+            else {
+    			map.put(lol, c + 1);
+
+            }
+            
+		}
+
+
+
+		return new ArrayList<>(list);
+	}
+ 	
+ 	
+ 	
+ 	
+	public int lengthOfLongestSubstring(String s) {
+
+		int max = 0;
+
+		for (int i = 1; i < s.length(); i++) {
+
+		}
+
+		return max;
+
+	}
+
+	public int kthSmallest(int[][] matrix, int k) {
+
+		PriorityQueue<Integer> q = new PriorityQueue<>();
+
+		for (int i = 0; i < matrix.length; i++) {
+
+			for (int j = 0; j < matrix[i].length; j++) {
+
+				q.add(matrix[i][j]);
+			}
+		}
+
+		int c = 0;
+
+		while (c >= k) {
+			q.poll();
+		}
+
+		return q.peek();
+
+	}
+	
+	
+
+    
+    public String reorganizeString(String S) {
+    	
+    	char[] barcodes = S.toCharArray();
+    	
+
+		Map<Character, Integer> map4 = getFrequencyMapV3(barcodes);
+
+		PriorityQueue<Map.Entry<Character, Integer>> q = new PriorityQueue<>(new intComparatorV3());
+
+		for (Map.Entry<Character, Integer> entry : map4.entrySet()) {
+			q.add(entry);
+		}
+
+		char[] r = new char[barcodes.length];
+		
+		int even = 0;
+		int odd = 1;
+
+		while (!q.isEmpty()) {
+
+			Entry<Character, Integer> entry = q.poll();
+			int c = entry.getValue();
+			int i = 1;
+			
+			while (even < barcodes.length && i <= c) {
+				r[even] = entry.getKey();
+				even = even + 2;
+				i++;
+			}
+			
+			while (odd < barcodes.length && i <= c) {
+				r[odd] = entry.getKey();
+				odd = odd + 2;
+				i++;
+			}
+			
+			if(i < c) {
+				return "";
+			}
+			
+		}
+		return new String(r);
+	}
+    
+	public Map<Character, Integer> getFrequencyMapV3(char[] barcodes) {
+		Map<Character, Integer> map = new HashMap<>();
+
+
+		for (int i = 0; i < barcodes.length; i++) {
+			map.put(barcodes[i], map.getOrDefault(barcodes[i], 0) + 1);
+		}
+
+		return map;
+	}
+	
+	
+	
+	public int[] rearrangeBarcodes(int[] barcodes) {
+
+		Map<Integer, Integer> map4 = getFrequencyMapV3(barcodes);
+
+		PriorityQueue<Map.Entry<Integer, Integer>> q = new PriorityQueue<>(new intComparatorV2());
+
+		for (Map.Entry<Integer, Integer> entry : map4.entrySet()) {
+
+			q.add(entry);
+		}
+
+		int[] r = new int[barcodes.length];
+		
+		int even = 0;
+		int odd = 1;
+
+		while (!q.isEmpty()) {
+
+			Entry<Integer, Integer> entry = q.poll();
+			
+			int c = entry.getValue();
+			
+			int i = 1;
+			
+			while (even < barcodes.length && i <= c) {
+				r[even] = entry.getKey();
+				even = even + 2;
+				i++;
+			}
+			
+			System.out.println(i);
+			
+			while (odd < barcodes.length && i <= c) {
+				r[odd] = entry.getKey();
+				odd = odd + 2;
+				i++;
+			}
+			
+		}
+		return r;
+	}
+	
+	public class intComparatorV2 implements Comparator<Map.Entry<Integer, Integer>> {
+
+		@Override
+		public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
+
+	
+
+			return -Integer.compare(o1.getValue(), o2.getValue());
+		}
+	}
+	
+	public class intComparatorV3 implements Comparator<Map.Entry<Character, Integer>> {
+
+		@Override
+		public int compare(Entry<Character, Integer> o1, Entry<Character, Integer> o2) {
+
+	
+
+			return -Integer.compare(o1.getValue(), o2.getValue());
+		}
+	}
+    
+    
+	public Map<Integer, Integer> getFrequencyMapV3(int[] barcodes) {
+		Map<Integer, Integer> map = new HashMap<>();
+
+
+		for (int i = 0; i < barcodes.length; i++) {
+			map.put(barcodes[i], map.getOrDefault(barcodes[i], 0) + 1);
+		}
+
+		return map;
+	}
+	
+
+	
+
 }

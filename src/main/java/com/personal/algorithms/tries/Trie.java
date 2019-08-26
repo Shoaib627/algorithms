@@ -2,8 +2,6 @@ package com.personal.algorithms.tries;
 
 public class Trie {
 
-
-
 	TrieNode root;
 
 	public Trie() {

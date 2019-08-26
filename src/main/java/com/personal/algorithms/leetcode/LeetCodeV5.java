@@ -11,14 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.personal.algorithms.lists.ListNode;
-
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.Stack;
 import java.util.TreeSet;
+
+import com.personal.algorithms.lists.ListNode;
 
 public class LeetCodeV5 {
 

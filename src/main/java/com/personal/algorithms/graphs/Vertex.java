@@ -9,9 +9,9 @@ public class Vertex {
 
 	private boolean visited;
 
+	private boolean beingVisited;
+
 	private List<Vertex> neighbourList;
-	
-	
 
 	public Vertex(int data) {
 		super();
@@ -19,7 +19,6 @@ public class Vertex {
 		this.neighbourList = new ArrayList<Vertex>();
 
 	}
-
 
 	public Vertex(int data, List<Vertex> neighbourList) {
 		super();
@@ -44,7 +43,7 @@ public class Vertex {
 	}
 
 	public List<Vertex> getNeighbourList() {
-		return neighbourList!=null ? neighbourList: new ArrayList<Vertex>();
+		return neighbourList != null ? neighbourList : new ArrayList<Vertex>();
 	}
 
 	public void setNeighbourList(List<Vertex> neighbourList) {
@@ -54,4 +53,13 @@ public class Vertex {
 	public void addNeighbour(Vertex neighbour) {
 		this.neighbourList.add(neighbour);
 	}
+
+	public boolean isBeingVisited() {
+		return beingVisited;
+	}
+
+	public void setBeingVisited(boolean beingVisited) {
+		this.beingVisited = beingVisited;
+	}
+
 }

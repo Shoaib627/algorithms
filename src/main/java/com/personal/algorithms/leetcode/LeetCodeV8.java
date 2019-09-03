@@ -1,7 +1,10 @@
 package com.personal.algorithms.leetcode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class LeetCodeV8 {
@@ -9,7 +12,7 @@ public class LeetCodeV8 {
 	public static void main(String[] args) {
 
 
-		asteroidCollision(new int[] {10,2,-5});
+		fourSum(new int[] { -1,0,1,2,-1,-4 }, 0);
 	}
 
 	public static int[] exclusiveTime(int n, List<String> logs) {
@@ -59,42 +62,7 @@ public class LeetCodeV8 {
 
 	}
 
-	public boolean canPlaceFlowers(int[] flowerbed, int n) {
-		int p = 0;
-		int i = 0;
 
-		if ((flowerbed.length == 1 && flowerbed[0] == 0 && n == 1)
-				|| (flowerbed.length == 2 && flowerbed[0] == 0 && flowerbed[1] == 0 && n == 1)) {
-			return true;
-		}
-
-		while (i <= flowerbed.length - 3) {
-			if (flowerbed[i] == 0 && flowerbed[i + 1] == 0 && flowerbed[i + 2] == 0) {
-				p++;
-				i++;
-				i++;
-				i++;
-
-			}
-
-			else if (i < flowerbed.length - 3 && flowerbed[i] == 1 && flowerbed[i + 1] == 0 && flowerbed[i + 2] == 0
-					&& flowerbed[i + 3] == 0
-					|| i < flowerbed.length - 3 && flowerbed[i] == 0 && flowerbed[i + 1] == 0 && flowerbed[i + 2] == 1
-							&& flowerbed[i + 3] == 0) {
-				p++;
-				i++;
-				i++;
-				i++;
-
-			}
-
-			else {
-				i++;
-			}
-		}
-
-		return p >= n;
-	}
 
 	public static int[] asteroidCollision(int[] asteroids) {
 
@@ -308,5 +276,316 @@ public class LeetCodeV8 {
 				candies -= candies_to_be_given;
 			}
 		}
+	}
+	
+	
+	public int dietPlanPerformance(int[] calories, int k, int lower, int upper) {
+
+		int r = 0;
+
+		int sum = 0;
+
+		for (int i = 0; i < k; i++) {
+			sum += calories[i];
+		}
+
+		if (sum > upper) {
+			r++;
+		}
+
+		if (sum < lower) {
+			r--;
+		}
+
+		for (int i = k; i < calories.length; i++) {
+
+			sum += calories[i] - calories[i - k];
+
+			if (sum > upper) {
+				r++;
+			}
+
+			if (sum < lower) {
+				r--;
+			}
+		}
+
+		return r;
+	}
+
+	public boolean isCompleteTree(TreeNode root) {
+
+		List<TreeNode> list = new ArrayList<TreeNode>();
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+
+		queue.add(root);
+		list.add(root);
+
+		while (!queue.isEmpty()) {
+
+			TreeNode node = queue.poll();
+
+			list.add(node.left);
+			list.add(node.right);
+
+			if (node.left != null) {
+				queue.add(node.left);
+			}
+
+			if (node.right != null) {
+				queue.add(node.right);
+			}
+		}
+
+		boolean num_found = false;
+		for (int i = list.size()-1; i >= 0; i--) {
+
+			if (!num_found && list.get(i) != null) {
+				num_found = true;
+			}
+
+			if (num_found && list.get(i) == null) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	
+	public int largestSumAfterKNegations(int[] A, int K) {
+
+		int negations = 0;
+		int min_element = Integer.MAX_VALUE;
+		int min_index = 0;
+		
+		Arrays.sort(A);
+
+		for (int i = 0; i < A.length; i++) {
+
+			if (negations > K) {
+
+				int sum = 0;
+				for (int j = 0; j < A.length; j++) {
+
+					sum += A[j];
+				}
+				return sum;
+			}
+
+			if (min_element < Math.abs(A[i])) {
+				min_element = Math.abs(A[i]);
+				min_index = i;
+			}
+
+			if (A[i] < 0) {
+				A[i] = -A[i];
+				negations++;
+			}
+		}
+
+		System.out.println(negations);
+		int r = 0;
+		if (A[min_index] < 0 && (K - negations) % 2 == 1) {
+			A[min_index] = -A[min_index];
+		}
+		
+		else if (A[min_index] > 0 && (K - negations) % 2 == 1) {
+			A[min_index] = -A[min_index];
+		}
+
+		for (int j = 0; j < A.length; j++) {
+
+			r += A[j];
+		}
+		return r;
+	}
+	
+	
+	public int[] corpFlightBookings(int[][] bookings, int n) {
+
+		int[] result = new int[n + 1];
+
+		for (int j = 0; j < bookings.length; j++) {
+			
+			int[] booking = bookings[j];
+
+			for (int i = booking[1]; i <= booking[2]; i++) {
+
+				result[i] += booking[0];
+			}
+		}
+		return result;
+	}
+	
+	public int maxDistToClosest(int[] seats) {
+
+		int zeros = 0;
+
+		int zeros_so_far = 0;
+
+		boolean last_zero_th_index = false;
+
+		int c = 0;
+		for (int i = 0; i < seats.length; i++) {
+
+			if (seats[i] == 1) {
+
+				if (zeros_so_far > zeros) {
+					zeros = zeros_so_far;
+					c++;
+				}
+				zeros_so_far = 0;
+			}
+
+			else {
+				zeros_so_far++;
+			}
+		}
+
+		if (zeros_so_far > zeros) {
+			last_zero_th_index = true;
+			zeros = zeros_so_far;
+			c++;
+		}
+
+		return (c == 1 && seats[0] == 0) ? zeros
+				: (last_zero_th_index ? zeros : (int) Math.ceil(((double) zeros / 2.0)));
+	}
+	
+	
+	
+	
+	public static boolean canPlaceFlowers(int[] flowerbed, int n) {
+
+		if (flowerbed.length == 1) {
+			if (flowerbed[0] == 0) {
+				return true;
+			}
+		}
+
+		int prev = 0;
+		int next = 0;
+		int p = 0;
+
+		for (int i = 0; i < flowerbed.length; i++) {
+			if (i + 1 < flowerbed.length) {
+				next = flowerbed[i + 1];
+			} else {
+				next = 0;
+			}
+			if (prev == 0 && next == 0 && flowerbed[i] == 0) {
+				p++;
+				prev = 1;
+			} else {
+				prev = flowerbed[i];
+			}
+		}
+		return p >= n;
+	}
+
+	public static List<List<Integer>> threeSum(int[] nums) {
+		List<List<Integer>> result = new ArrayList<>();
+		
+		Arrays.sort(nums);
+
+		for (int i = 0; i < nums.length; i++) {
+
+			if (i != 0 && nums[i] == nums[i - 1]) {
+				continue;
+			}
+
+			int p = i + 1;
+			int q = nums.length - 1;
+
+			while (p < q) {
+
+				if (nums[i] + nums[p] + nums[q] == 0) {
+
+					List<Integer> list = new ArrayList<>();
+					list.add(nums[i]);
+					list.add(nums[p]);
+					list.add(nums[q]);
+					
+					result.add(list);
+					
+					while (p + 1 < nums.length && nums[p] == nums[p + 1]) {
+						p++;
+					}
+					
+
+					while (q > 0 && nums[q] == nums[q - 1]) {
+						q--;
+					}
+
+					p++;
+					q--;
+
+					
+				}  else if (nums[i] + nums[p] + nums[q] > 0) {
+					q--;
+				}  else if (nums[i] + nums[p] + nums[q] < 0) {
+					p++;
+				}
+			}
+		}
+		
+		System.out.println(result);
+		return result;
+	}
+	
+	
+	public static List<List<Integer>> fourSum(int[] nums, int target) {
+		List<List<Integer>> result = new ArrayList<>();
+
+		Arrays.sort(nums);
+
+		for (int i = 0; i < nums.length; i++) {
+
+			if (i != 0 && nums[i] == nums[i - 1]) {
+				continue;
+			}
+
+			for (int j = i + 1; j < nums.length; j++) {
+
+				if (nums[j] == nums[j - 1]) {
+					continue;
+				}
+
+				int p = i + 1;
+				int q = nums.length - 1;
+
+				while (p < q) {
+
+					if (nums[i] + nums[j] + nums[p] + nums[q] == target) {
+
+						List<Integer> list = new ArrayList<>();
+						list.add(nums[i]);
+						list.add(nums[j]);
+						list.add(nums[p]);
+						list.add(nums[q]);
+
+						result.add(list);
+
+						while (p + 1 < nums.length && nums[p] == nums[p + 1]) {
+							p++;
+						}
+
+						while (q > 0 && nums[q] == nums[q - 1]) {
+							q--;
+						}
+
+						p++;
+						q--;
+
+					} else if (nums[i] + nums[j] + nums[p] + nums[q] > target) {
+						q--;
+					} else if (nums[i] + nums[j] + nums[p] + nums[q] < target) {
+						p++;
+					}
+				}
+			}
+		}
+		return result;
 	}
 }

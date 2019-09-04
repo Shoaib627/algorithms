@@ -2,8 +2,10 @@ package com.personal.algorithms.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -12,7 +14,7 @@ public class LeetCodeV8 {
 	public static void main(String[] args) {
 
 
-		fourSum(new int[] { -1,0,1,2,-1,-4 }, 0);
+		merge(new int[] { 1,2,3,4,0,0,0 }, 4, new int[] { 2,5,6 }, 3);
 	}
 
 	public static int[] exclusiveTime(int n, List<String> logs) {
@@ -535,6 +537,62 @@ public class LeetCodeV8 {
 	}
 	
 	
+
+	
+	public int threeSumClosest(int[] nums, int target) {
+
+		Arrays.sort(nums);
+		int diff = Integer.MAX_VALUE;
+		int closest = 0;
+
+		for (int i = 0; i < nums.length; i++) {
+
+			if (i != 0 && nums[i] == nums[i - 1]) {
+				continue;
+			}
+
+			int p = i + 1;
+			int q = nums.length - 1;
+
+			while (p < q) {
+
+				int sum = nums[i] + nums[p] + nums[q];
+
+				if (sum == target) {
+					return sum;
+				}
+
+				if (Math.abs(sum - target) < diff) {
+					diff = Math.abs(sum - target);
+					closest = sum;
+
+					while (p + 1 < nums.length && nums[p] == nums[p + 1]) {
+						p++;
+					}
+
+					while (q > 0 && nums[q] == nums[q - 1]) {
+						q--;
+					}
+
+				
+				}
+
+			 if (sum > target) {
+					q--;
+				}
+
+				else if(sum < target){
+					p++;
+				}
+
+			}
+		}
+
+		return closest;
+	}
+	
+	
+	
 	public static List<List<Integer>> fourSum(int[] nums, int target) {
 		List<List<Integer>> result = new ArrayList<>();
 
@@ -587,5 +645,71 @@ public class LeetCodeV8 {
 			}
 		}
 		return result;
+	}
+	
+	   public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+	        if (A == null || B == null || C == null || D == null) {
+	            return 0;
+	        }
+	        int count = 0;
+	        Map<Integer, Integer> map = new HashMap<>();
+	        for (int i = 0; i < A.length; i++) {
+	            for (int j = 0; j < B.length; j++) {
+	            	
+	                map.merge(A[i] + B[j], 1, Integer::sum);
+	            }
+	        }
+
+	        for (int k = 0; k < C.length; k++) {
+	            for (int l = 0; l < D.length; l++) {
+	                int desiredSum = -(C[k] + D[l]);
+	                if (map.containsKey(desiredSum)) {
+	                    count += map.get(desiredSum);
+	                }
+	            }
+	        }
+	        return count;
+	    }
+	   
+	public void mergev2(int[] nums1, int m, int[] nums2, int n) {
+
+		int index = n;
+
+		for (int i = nums2.length - 1; i >= 0; i--) {
+
+			nums1[index] = nums2[i];
+			int j = index - 1;
+
+			while (j >= 0 && nums1[j] > nums1[j + 1]) {
+				int temp = nums1[j];
+				nums1[j] = nums2[i];
+				nums1[j + 1] = temp;
+				j--;
+			}
+			index++;
+		}
+	}
+	
+	public static void merge(int[] nums1, int m, int[] nums2, int n) {
+
+		int i = 0;
+		int j = 0;
+
+		while (i < m && j < n) {
+
+			if (nums1[i] > nums2[j]) {
+				int temp = nums1[i];
+				nums1[i] = nums2[j];
+				nums2[j] = temp;
+				j++;
+			} else {
+				i++;
+			}
+		}
+
+		for (int x = 0; x < n; x++) {
+			nums1[m] = nums2[x];
+			m++;
+		}
 	}
 }

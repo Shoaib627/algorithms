@@ -11,12 +11,6 @@ import java.util.Stack;
 
 public class LeetCodeV8 {
 
-	public static void main(String[] args) {
-
-
-		merge(new int[] { 1,2,3,4,0,0,0 }, 4, new int[] { 2,5,6 }, 3);
-	}
-
 	public static int[] exclusiveTime(int n, List<String> logs) {
 
 		int[] time_arr = new int[n];
@@ -63,8 +57,6 @@ public class LeetCodeV8 {
 		}
 
 	}
-
-
 
 	public static int[] asteroidCollision(int[] asteroids) {
 
@@ -124,7 +116,7 @@ public class LeetCodeV8 {
 		}
 		return result;
 	}
-	
+
 	public String parseTernary(String expression) {
 
 		char[] arr = expression.toCharArray();
@@ -153,38 +145,35 @@ public class LeetCodeV8 {
 		return stack.pop().toString();
 
 	}
-	
+
 	public int[] numSmallerByFrequency(String[] queries, String[] words) {
 
 		int[] result = new int[queries.length];
-		
-		
+
 		int[] words_count = new int[words.length];
-		
-		
+
 		for (int j = 0; j < words.length; j++) {
 			words_count[j] = getMinCharFrequeny(words[j]);
 		}
 
-
 		for (int i = 0; i < queries.length; i++) {
-			
+
 			int q = getMinCharFrequeny(queries[i]);
-			
-			int c =0;
+
+			int c = 0;
 
 			for (int j = 0; j < words.length; j++) {
 
-				if(q < words_count[j]) {
+				if (q < words_count[j]) {
 					c++;
 				}
 			}
-			
+
 			result[i] = c;
 		}
 		return result;
 	}
-	
+
 	public int getMinCharFrequeny(String word) {
 
 		char[] arr = word.toCharArray();
@@ -202,8 +191,7 @@ public class LeetCodeV8 {
 		}
 		return 0;
 	}
-	
-	
+
 	public boolean isBoomerang(int[][] p) {
 		return (p[0][0] - p[2][0]) * (p[0][1] - p[1][1]) != (p[0][0] - p[1][0]) * (p[0][1] - p[2][1]);
 	}
@@ -212,37 +200,33 @@ public class LeetCodeV8 {
 		double slope;
 		if (B[0] == A[0]) {
 			slope = 9999;
-		}
-		else
-		slope = ((double) B[1] - (double) A[1]) / ((double) B[0] - (double) A[0]);
-		
+		} else
+			slope = ((double) B[1] - (double) A[1]) / ((double) B[0] - (double) A[0]);
+
 		System.out.println(slope);
 		return slope;
 	}
-	
-	
- 	public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+
+	public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
 
 		double p1p2 = distance(p1, p2);
 		double p2p3 = distance(p2, p3);
 		double p3p4 = distance(p3, p4);
 		double p1p4 = distance(p1, p4);
-        double p1p3 = distance(p1, p3);
-        double p2p4 = distance(p2, p4);
-        
-        double[] arr = new double[6];
-        
-        arr[0] = p1p2;
-        arr[1] = p2p3;
+		double p1p3 = distance(p1, p3);
+		double p2p4 = distance(p2, p4);
 
-        arr[2] = p3p4;
-        arr[3] = p1p4;
-        arr[4] = p1p3;
-        arr[5] = p2p4;
-        
-        Arrays.sort(arr);
+		double[] arr = new double[6];
 
+		arr[0] = p1p2;
+		arr[1] = p2p3;
 
+		arr[2] = p3p4;
+		arr[3] = p1p4;
+		arr[4] = p1p3;
+		arr[5] = p2p4;
+
+		Arrays.sort(arr);
 
 		return arr[0] == arr[3];
 
@@ -253,8 +237,7 @@ public class LeetCodeV8 {
 		System.out.println(s);
 		return s;
 	}
-	
-	
+
 	public int[] distributeCandies(int candies, int num_people) {
 
 		int[] people = new int[num_people];
@@ -279,8 +262,7 @@ public class LeetCodeV8 {
 			}
 		}
 	}
-	
-	
+
 	public int dietPlanPerformance(int[] calories, int k, int lower, int upper) {
 
 		int r = 0;
@@ -340,7 +322,7 @@ public class LeetCodeV8 {
 		}
 
 		boolean num_found = false;
-		for (int i = list.size()-1; i >= 0; i--) {
+		for (int i = list.size() - 1; i >= 0; i--) {
 
 			if (!num_found && list.get(i) != null) {
 				num_found = true;
@@ -353,14 +335,13 @@ public class LeetCodeV8 {
 
 		return true;
 	}
-	
-	
+
 	public int largestSumAfterKNegations(int[] A, int K) {
 
 		int negations = 0;
 		int min_element = Integer.MAX_VALUE;
 		int min_index = 0;
-		
+
 		Arrays.sort(A);
 
 		for (int i = 0; i < A.length; i++) {
@@ -391,7 +372,7 @@ public class LeetCodeV8 {
 		if (A[min_index] < 0 && (K - negations) % 2 == 1) {
 			A[min_index] = -A[min_index];
 		}
-		
+
 		else if (A[min_index] > 0 && (K - negations) % 2 == 1) {
 			A[min_index] = -A[min_index];
 		}
@@ -402,14 +383,13 @@ public class LeetCodeV8 {
 		}
 		return r;
 	}
-	
-	
+
 	public int[] corpFlightBookings(int[][] bookings, int n) {
 
 		int[] result = new int[n + 1];
 
 		for (int j = 0; j < bookings.length; j++) {
-			
+
 			int[] booking = bookings[j];
 
 			for (int i = booking[1]; i <= booking[2]; i++) {
@@ -419,7 +399,7 @@ public class LeetCodeV8 {
 		}
 		return result;
 	}
-	
+
 	public int maxDistToClosest(int[] seats) {
 
 		int zeros = 0;
@@ -454,10 +434,7 @@ public class LeetCodeV8 {
 		return (c == 1 && seats[0] == 0) ? zeros
 				: (last_zero_th_index ? zeros : (int) Math.ceil(((double) zeros / 2.0)));
 	}
-	
-	
-	
-	
+
 	public static boolean canPlaceFlowers(int[] flowerbed, int n) {
 
 		if (flowerbed.length == 1) {
@@ -488,7 +465,7 @@ public class LeetCodeV8 {
 
 	public static List<List<Integer>> threeSum(int[] nums) {
 		List<List<Integer>> result = new ArrayList<>();
-		
+
 		Arrays.sort(nums);
 
 		for (int i = 0; i < nums.length; i++) {
@@ -508,13 +485,12 @@ public class LeetCodeV8 {
 					list.add(nums[i]);
 					list.add(nums[p]);
 					list.add(nums[q]);
-					
+
 					result.add(list);
-					
+
 					while (p + 1 < nums.length && nums[p] == nums[p + 1]) {
 						p++;
 					}
-					
 
 					while (q > 0 && nums[q] == nums[q - 1]) {
 						q--;
@@ -523,22 +499,18 @@ public class LeetCodeV8 {
 					p++;
 					q--;
 
-					
-				}  else if (nums[i] + nums[p] + nums[q] > 0) {
+				} else if (nums[i] + nums[p] + nums[q] > 0) {
 					q--;
-				}  else if (nums[i] + nums[p] + nums[q] < 0) {
+				} else if (nums[i] + nums[p] + nums[q] < 0) {
 					p++;
 				}
 			}
 		}
-		
+
 		System.out.println(result);
 		return result;
 	}
-	
-	
 
-	
 	public int threeSumClosest(int[] nums, int target) {
 
 		Arrays.sort(nums);
@@ -574,14 +546,13 @@ public class LeetCodeV8 {
 						q--;
 					}
 
-				
 				}
 
-			 if (sum > target) {
+				if (sum > target) {
 					q--;
 				}
 
-				else if(sum < target){
+				else if (sum < target) {
 					p++;
 				}
 
@@ -590,9 +561,7 @@ public class LeetCodeV8 {
 
 		return closest;
 	}
-	
-	
-	
+
 	public static List<List<Integer>> fourSum(int[] nums, int target) {
 		List<List<Integer>> result = new ArrayList<>();
 
@@ -646,31 +615,31 @@ public class LeetCodeV8 {
 		}
 		return result;
 	}
-	
-	   public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
-	        if (A == null || B == null || C == null || D == null) {
-	            return 0;
-	        }
-	        int count = 0;
-	        Map<Integer, Integer> map = new HashMap<>();
-	        for (int i = 0; i < A.length; i++) {
-	            for (int j = 0; j < B.length; j++) {
-	            	
-	                map.merge(A[i] + B[j], 1, Integer::sum);
-	            }
-	        }
 
-	        for (int k = 0; k < C.length; k++) {
-	            for (int l = 0; l < D.length; l++) {
-	                int desiredSum = -(C[k] + D[l]);
-	                if (map.containsKey(desiredSum)) {
-	                    count += map.get(desiredSum);
-	                }
-	            }
-	        }
-	        return count;
-	    }
-	   
+	public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+		if (A == null || B == null || C == null || D == null) {
+			return 0;
+		}
+		int count = 0;
+		Map<Integer, Integer> map = new HashMap<>();
+		for (int i = 0; i < A.length; i++) {
+			for (int j = 0; j < B.length; j++) {
+
+				map.merge(A[i] + B[j], 1, Integer::sum);
+			}
+		}
+
+		for (int k = 0; k < C.length; k++) {
+			for (int l = 0; l < D.length; l++) {
+				int desiredSum = -(C[k] + D[l]);
+				if (map.containsKey(desiredSum)) {
+					count += map.get(desiredSum);
+				}
+			}
+		}
+		return count;
+	}
+
 	public void mergev2(int[] nums1, int m, int[] nums2, int n) {
 
 		int index = n;
@@ -689,7 +658,7 @@ public class LeetCodeV8 {
 			index++;
 		}
 	}
-	
+
 	public static void merge(int[] nums1, int m, int[] nums2, int n) {
 
 		int i = 0;
@@ -711,5 +680,303 @@ public class LeetCodeV8 {
 			nums1[m] = nums2[x];
 			m++;
 		}
+	}
+
+	public int subarraySum(int[] nums, int k) {
+
+		int current_sum = 0;
+		int count = 0;
+
+		Map<Integer, Integer> map = new HashMap<>();
+		for (int i = 0; i < nums.length; i++) {
+
+			current_sum = current_sum + nums[i];
+
+			if (current_sum == k) {
+				count++;
+			}
+
+			else if (map.containsKey(current_sum - k)) {
+				count++;
+			}
+
+			map.put(current_sum, i);
+		}
+		return count;
+	}
+
+	public int[] numberOfLines(int[] widths, String S) {
+
+		int nums_of_lines = 0;
+		int current_line_so_far = 0;
+
+		char[] arr = S.toCharArray();
+		for (int i = 0; i < arr.length; i++) {
+			int width = arr[i];
+			if (width > 100 - current_line_so_far) {
+				nums_of_lines++;
+				current_line_so_far = 0;
+			} else {
+				current_line_so_far += width;
+			}
+		}
+
+		return new int[] { nums_of_lines, current_line_so_far };
+	}
+
+	public boolean isMajorityElement(int[] nums, int target) {
+
+		int index = binarySearch(nums, 0, nums.length - 1, target);
+
+		System.out.println(index);
+
+		index = index + (nums.length / 2);
+
+		return index < nums.length && nums[index] == target;
+	}
+
+	public int binarySearch(int[] arr, int start, int end, int target) {
+		if (start <= end) {
+
+			int mid = start + ((end - start) / 2);
+
+			if (arr[mid] == target && (mid == 0 || arr[mid - 1] != target)) {
+				return mid;
+			}
+
+			else if (arr[mid] > target) {
+				return binarySearch(arr, start, mid - 1, target);
+			}
+			return binarySearch(arr, mid + 1, end, target);
+		}
+		return start;
+	}
+
+	public static List<Integer> majorityElement(int[] nums) {
+
+		List<Integer> list = new ArrayList<>();
+
+		if (nums.length == 0) {
+			return list;
+		}
+
+		int first = findMajorityElement(nums);
+
+		System.out.println(first);
+
+		int count = 0;
+
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] == first) {
+				count++;
+			}
+		}
+
+		if (count > Math.ceil(nums.length / 3)) {
+			list.add(first);
+		}
+
+		int second;
+		try {
+			second = findSecondMajorityElement(nums, first);
+		} catch (Exception e) {
+			return list;
+		}
+
+		count = 0;
+
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] == second) {
+				count++;
+			}
+		}
+
+		if (count > Math.ceil(nums.length / 3)) {
+			list.add(second);
+		}
+
+		return list;
+	}
+
+	public static int findMajorityElement(int[] nums) {
+
+		int majority_element = nums[0];
+		int count = 1;
+
+		for (int i = 1; i < nums.length; i++) {
+
+			if (majority_element == nums[i]) {
+				count++;
+			}
+
+			else {
+				count--;
+
+				if (count == 0) {
+					majority_element = nums[i];
+					count = 1;
+				}
+			}
+		}
+		return majority_element;
+	}
+
+	public static int findSecondMajorityElement(int[] nums, int first) {
+
+		int j = 0;
+
+		while (j < nums.length && first == nums[j]) {
+			j++;
+		}
+
+		if (j == nums.length) {
+			throw new RuntimeException();
+		}
+
+		int majority_element = nums[j];
+		int count = 1;
+
+		for (int i = j + 1; i < nums.length; i++) {
+
+			if (nums[i] == first) {
+				continue;
+			}
+
+			if (majority_element == nums[i]) {
+				count++;
+			}
+
+			else {
+				count--;
+
+				if (count == 0) {
+					majority_element = nums[i];
+					count = 1;
+				}
+			}
+		}
+		return majority_element;
+	}
+
+	public void rotate(int[] nums, int k) {
+
+		int i = 0;
+		int j = nums.length - 1;
+
+		while (i < k) {
+
+			int temp = nums[i];
+			nums[i] = nums[j];
+			nums[j] = temp;
+
+			i++;
+			j--;
+		}
+
+		System.out.println(Arrays.toString(nums));
+
+		int p = k;
+		int q = nums.length - 1;
+
+		while (p < q) {
+
+			int temp = nums[p];
+			nums[p] = nums[q];
+			nums[q] = temp;
+
+			p++;
+			q--;
+		}
+		System.out.println(Arrays.toString(nums));
+
+		p = 0;
+		q = k - 1;
+
+		while (p < q) {
+
+			int temp = nums[p];
+			nums[p] = nums[q];
+			nums[q] = temp;
+
+			p++;
+			q--;
+		}
+	}
+
+	public static void main(String[] args) {
+
+		fractionToDecimal(34123123, 17);
+	}
+
+
+	public static String fractionToDecimal(int numerator, int denominator) {
+
+		double d = (double) numerator / (double) denominator;
+
+		String str = String.valueOf(d);
+		System.out.println(str);
+
+		String[] arr = str.split("\\.");
+
+		if (arr.length > 0) {
+
+			if (arr[1].equals("0")) {
+				return arr[0];
+			}
+
+			int simple_denominator = Integer.parseInt(asFraction(numerator, denominator).split("/")[1]);
+
+			while (simple_denominator % 5 == 0) {
+				simple_denominator = simple_denominator / 5;
+			}
+
+			while (simple_denominator % 2 == 0) {
+				simple_denominator = simple_denominator / 2;
+			}
+
+			if (simple_denominator == 1) {
+				return arr[0] + "." + arr[1];
+			}
+
+			else {
+
+				String seq = getRecurringSequence(numerator, denominator);
+				int index = arr[1].indexOf(seq);
+				return arr[0] + "." + (index == 0 || index == -1 ? "(" + seq + ")" : arr[1].substring(0, index) + "(" + seq + ")");
+			}
+		}
+
+		else {
+			return str;
+		}
+	}
+
+	public static String getRecurringSequence(int num, int den) {
+
+		String result = "";
+		HashMap<Integer, Integer> map = new HashMap<>();
+		int rem = num % den;
+
+		while (rem != 0 && !map.containsKey(rem)) {
+
+			map.put(rem, result.length());
+
+			rem = rem * 10;
+			int resPart = rem / den;
+			result = result + resPart;
+
+			rem = rem % den;
+		}
+		return (rem == 0) ? "" : result.substring(map.get(rem));
+
+	}
+
+	public static long gcm(long a, long b) {
+		return b == 0 ? a : gcm(b, a % b); // Not bad for one line of code :)
+	}
+
+	public static String asFraction(long a, long b) {
+		long gcm = gcm(a, b);
+		return (a / gcm) + "/" + (b / gcm);
 	}
 }

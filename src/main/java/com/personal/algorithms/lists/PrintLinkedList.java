@@ -4,12 +4,10 @@ public class PrintLinkedList {
 
 	public static void main(String[] args) {
 
-		printIterative(LinkedListGenerator.getList());
-		System.out.println();
-		printRecursive(LinkedListGenerator.getList());
-		
-		System.out.println();
-		printRecursive(LinkedListGenerator.getList(new int[] {1, 2, 3}));
+		 ListNode list = LinkedListGenerator.getList(new int[] {1, 2, 3});
+		 printRecursive(list);
+		 System.out.println();
+		 printRecursive(reverse(list));
 
 
 	}
@@ -24,6 +22,29 @@ public class PrintLinkedList {
 		}
 		
 		System.out.println();
+	}
+	
+	public static ListNode reverse(ListNode head) {
+
+		if(head == null || head.next == null) {
+			return head;
+		}
+		
+		ListNode current = head;
+		ListNode result  = null;
+
+		
+		while (current != null) {
+
+			ListNode temp = current.next;
+
+			current.next = result;
+			result = current;
+
+			current = temp;
+		}
+		
+		return result;
 	}
 	
 	public static void printRecursive(ListNode node) {

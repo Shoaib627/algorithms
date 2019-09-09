@@ -55,7 +55,7 @@ public class FindSubArrayWithSumN {
 
 				result.add(range);
 
-				continue;
+				//continue;
 			}
 
 			else if (map.containsKey(current_sum - sum)) {
@@ -65,19 +65,44 @@ public class FindSubArrayWithSumN {
 				range.add(i);
 				result.add(range);
 
-				continue;
+				//continue;
 			}
 
 			map.put(current_sum, i);
 		}
 		return result;
 	}
+	
+	public static int subarraySum(int[] A, int sum) {
+
+		int count = 0;
+		for (int start_index = 0; start_index < A.length; start_index++) {
+
+			for (int end_index = start_index; end_index < A.length; end_index++) {
+
+
+				int local_sum = 0;
+				for (int i = start_index; i <= end_index; i++) {
+					local_sum += A[i];
+				}
+
+				if (local_sum == sum) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
 
 	public static void main(String[] args) {
-		List<List<Integer>> res = findSubArrayWithSumN(new int[] { 1, 2, 3, 4, 5, 10 }, 10);
+		List<List<Integer>> res = findSubArrayWithSumNV2(new int[] { 1, 1, 1, 0,2}, 2);
 		res.forEach(list -> System.out.println(list));
 		
 		res = findSubArrayWithSumNV2(new int[] { 1, 2, 3, 4, 5, 10 }, 10);
-		res.forEach(list -> System.out.println(list));
+		//res.forEach(list -> System.out.println(list));
 	}
+	
+	
+	
+	
 }

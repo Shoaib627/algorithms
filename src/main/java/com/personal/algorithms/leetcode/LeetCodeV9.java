@@ -7,9 +7,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.Stack;
 
 import com.personal.algorithms.lists.ListNode;
@@ -1097,5 +1101,201 @@ public class LeetCodeV9 {
 
 		return result;
 	}
+	
+	public void rotate(int[] nums, int k) {
+		
+		if(k >= nums.length) {
+			return;
+		}
 
+		nums = reverse(nums, nums.length - k, nums.length - 1);
+		nums = reverse(nums, 0, nums.length - k - 1);
+		nums = reverse(nums, 0, nums.length - 1);
+	}
+
+	public int[] reverse(int[] nums, int start, int end) {
+
+		while (start < end) {
+
+			int temp = nums[start];
+			nums[start] = nums[end];
+			nums[end] = temp;
+			
+			   start++;
+	           end --;
+		}
+
+		return nums;
+	}
+	
+	
+
+
+	public static boolean isToeplitzMatrix(int[][] matrix) {
+
+		int row = matrix.length - 1;
+		int col = 0;
+
+		while (col < matrix[0].length) {
+			if (!isToeplitzMatrixhelper(matrix, row, col)) {
+				return false;
+			}
+			if (row > 0) {
+				row--;
+			} else {
+				col++;
+			}
+		}
+		return true;
+	}
+
+	public static boolean isToeplitzMatrixhelper(int[][] matrix, int row, int col) {
+
+		System.out.println(row);
+		System.out.println(col);
+
+		int temp = matrix[row][col];
+		row++;
+		col++;
+
+		System.out.println(row < matrix.length && col < matrix[0].length);
+
+		while (row < matrix.length && col < matrix[0].length) {
+
+			if (temp != matrix[row][col]) {
+				return false;
+			}
+			row++;
+			col++;
+		}
+
+		return true;
+	}
+	
+	public int numberOfBoomerangs(int[][] points) {
+
+		int count = 0;
+		for (int[] i : points) {
+
+			for (int[] j : points) {
+
+				for (int[] k : points) {
+
+					double d1 = Math.sqrt((j[0] - i[0]) * (j[0] - i[0]) + (j[1] - i[1]) * (j[1] - i[1]));
+
+					double d2 = Math.sqrt((k[0] - i[0]) * (k[0] - i[0]) + (k[1] - i[1]) * (k[1] - i[1]));
+
+					if (d1 == d2) {
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+	
+	public static void main(String[] ars) {
+		System.out.println(arrayNestingV2(new int[] { 5, 4, 0, 3, 1, 6, 2 }));
+	}
+
+	public static int arrayNestingV2(int[] nums) {
+
+		int length = 0;
+
+		Map<Integer, Set<Integer>> map = new HashMap<>();
+		Map<Integer, LinkedList<Integer>> map2 = new HashMap<>();
+
+		for (int i = 0; i < nums.length; i++) {
+
+			Set<Integer> set = new HashSet<>();
+			LinkedList<Integer> list = new LinkedList<>();
+
+			int k = i;
+
+			while (true) {
+				int current_size = set.size();
+				int a = nums[k];
+
+				if (map.containsKey(a)) {
+
+					Set<Integer> ls = map.get(a);
+					if (ls.contains(a)) {
+
+						Iterator<Integer> it = map2.get(a).iterator();
+
+						while (it.hasNext()) {
+
+							Integer t = it.next();
+							if (t == a) {
+								break;
+							}
+							set.add(t);
+							list.add(t);
+						}
+
+						map.put(i, set);
+						map2.put(i, list);
+
+						break;
+					}
+
+					else {
+						list.add(a);
+						set.add(a);
+
+						list.addAll(map2.get(a));
+						set.addAll(ls);
+					}
+				} else {
+					list.add(a);
+					set.add(a);
+				}
+
+				k = a;
+				if (set.size() == current_size) {
+
+					list.removeLast();
+
+					map.put(i, set);
+					map2.put(i, list);
+
+					if (current_size > length) {
+						length = current_size;
+					}
+					break;
+				}
+			}
+		}
+		System.out.println(map2);
+		return length;
+	}
+	
+
+	public int arrayNesting(int[] nums) {
+
+		int[] topset = new int[20001];
+		int length = 0;
+
+		for (int i = 0; i < nums.length; i++) {
+
+			if (topset[i] == 1) {
+				continue;
+			}
+			int count = 0;
+			int k = i;
+			while (true) {
+				if (topset[nums[k]] == 1) {
+					if (count > length) {
+						length = count;
+					}
+					break;
+				} else {
+					topset[nums[k]] += 1;
+				}
+				k = nums[k];
+				count++;
+			}
+		}
+		return length;
+	}
 }

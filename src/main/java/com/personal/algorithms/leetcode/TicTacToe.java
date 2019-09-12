@@ -1,8 +1,5 @@
 package com.personal.algorithms.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class TicTacToe {
 
 	char[][] arr;

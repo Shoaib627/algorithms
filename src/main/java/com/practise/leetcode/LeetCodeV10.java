@@ -598,16 +598,7 @@ public class LeetCodeV10 {
 
 		return pairs;
 	}
-	
-	public static void main(String[] args) {
-		
-		int c = 9;
-		
-		System.out.println((char)c);
 
-		//System.out.println(Character.digit(c, 10));
-	}
-	
 	public boolean containsNearbyDuplicate(int[] nums, int k) {
 
 		Map<Integer, Integer> map = new HashMap<>();
@@ -696,5 +687,566 @@ public class LeetCodeV10 {
 		sum = sum + recurse(root.left, root.val);
 		return sum;
 	}
+	
+
+	
+	public static int[] deckRevealedIncreasing(int[] deck) {
+
+		Arrays.sort(deck);
+
+		int[] arr = new int[deck.length];
+
+		int i = 0;
+		int j = 0;
+		while (i < deck.length) {
+
+			arr[i] = deck[j];
+			i++;
+			i++;
+			j++;
+		}
+
+		int a = 1;
+
+		while (a < deck.length) {
+
+			arr[a] = deck[j];
+			a = a + 4;
+			j++;
+		}
+
+		a = 3;
+
+		while (a < deck.length) {
+
+			arr[a] = deck[j];
+			a = a + 4;
+			j++;
+		}
+
+		return arr;
+	}
+	
+	public String minWindowV2(String s, String t) {
+
+		int minWindowLengthSeenSoFar = Integer.MAX_VALUE;
+		String minWindow = "";
+
+		for (int left = 0; left <= s.length() - t.length(); left++) {
+
+			for (int right = left + t.length(); right < s.length(); right++) {
+
+				String searchString = s.substring(left, right + 1);
+				
+				if(stringContainsAllCharacters(searchString, t) && searchString.length() < minWindowLengthSeenSoFar) {
+					minWindowLengthSeenSoFar = searchString.length();
+					minWindow = searchString;
+				}
+			}
+
+		}
+		return minWindow;
+	}
+	
+	
+
+	private boolean stringContainsAllCharacters(String searchString, String t) {
+
+		Map<Character, Integer> requiredCharacters = new HashMap<Character, Integer>();
+
+		for (int i = 0; i < t.length(); i++) {
+
+			int occurrencesOfCharacter = requiredCharacters.getOrDefault(t.charAt(i), 0);
+
+			requiredCharacters.put(t.charAt(i), occurrencesOfCharacter + 1);
+
+		}
+
+		for (int i = 0; i < searchString.length(); i++) {
+
+			char curChar = searchString.charAt(i);
+
+			if (requiredCharacters.containsKey(curChar)) {
+
+				int newOccurrenceCount = requiredCharacters.get(curChar) - 1;
+
+				if (newOccurrenceCount == 0) {
+					requiredCharacters.remove(curChar);
+				} else {
+					requiredCharacters.put(curChar, newOccurrenceCount);
+				}
+
+			}
+
+		}
+
+		return requiredCharacters.isEmpty();
+	}
+	
+	
+	public static String minWindow(String s, String t) {
+
+		if (t.length() > s.length()) {
+			return "";
+		}
+
+		Map<Character, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < t.length(); i++) {
+			map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+		}
+
+		int left = 0;
+		int right = 0;
+		int len = Integer.MAX_VALUE;
+		int head = 0;
+
+		int counter = map.size();
+
+		while (right < s.length()) {
+
+			char charAtRight = s.charAt(right);
+
+			if (map.containsKey(charAtRight)) {
+				map.put(charAtRight, map.get(charAtRight) - 1);
+				// It means all characters have been covered
+				if (map.get(charAtRight) == 0) {
+					counter--;
+				}
+			}
+
+			while (counter == 0) {
+
+				char charAtLeft = s.charAt(left);
+				if (map.containsKey(charAtLeft)) { 
+					map.put(charAtLeft, map.get(charAtLeft) + 1);
+					// It means it window is violated
+					// This check is needed instead of plain counter ++
+					// is because map can have negative keys and left pointer 
+					// can still contract
+					if (map.get(charAtLeft) > 0) {
+						counter++;
+					}
+				}
+
+				// This need to checked only when left is getting contracted
+				if (right - left + 1 < len) {
+					len = right - left + 1;
+					head = left;
+				}
+
+				left++;
+			}
+			
+			right++;
+		}
+		return len == Integer.MAX_VALUE ? "" : s.substring(head, head + len);
+	}
+
+	// cbaebabacd
+	public List<Integer> findAnagrams(String s, String t) {
+
+		if (t.length() > s.length()) {
+			return new ArrayList<>();
+		}
+
+		Map<Character, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < t.length(); i++) {
+			map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+		}
+
+		List<Integer> result = new ArrayList<>();
+
+		int left = 0;
+		int right = 0;
+
+		int counter = map.size();
+
+		while (right < s.length()) {
+
+			char charAtRight = s.charAt(right);
+
+			if (map.containsKey(charAtRight)) {
+				map.put(charAtRight, map.get(charAtRight) - 1);
+				// It means all characters have been covered
+				if (map.get(charAtRight) == 0) {
+					counter--;
+				}
+			}
+
+			while (counter == 0) {
+
+				char charAtLeft = s.charAt(left);
+				if (map.containsKey(charAtLeft)) {
+					map.put(charAtLeft, map.get(charAtLeft) + 1);
+					// It means it window is violated
+					// This check is needed instead of plain counter ++
+					// is because map can have negative keys and left pointer
+					// can still contract
+					if (map.get(charAtLeft) > 0) {
+						counter++;
+					}
+				}
+
+				if (right - left + 1 == t.length()) {
+					result.add(left);
+				}
+
+				left++;
+			}
+
+			right++;
+		}
+
+		return result;
+	}
+	
+	
+
+
+	public static int lengthOfLongestSubstring(String s) {
+		int right = 0, left = 0, len = 0, counter = 0;
+		Map<Character, Integer> map = new HashMap<>();
+		while (right < s.length()) {
+			char charAtRight = s.charAt(right);
+			map.put(charAtRight, map.getOrDefault(charAtRight, 0) + 1);
+			if (map.get(charAtRight) > 1) {
+				counter++;
+			}
+			right++;
+			while (counter > 0) {
+				char charAtLeft = s.charAt(left);
+
+				if (map.get(charAtLeft) > 1) {
+					counter--;
+				}
+				map.put(charAtLeft, map.get(charAtLeft) - 1);
+				left++;
+
+			}
+			len = Math.max(right - left, len);
+
+		}
+		return len;
+	}
+
+	public int lengthOfLongestSubstringTwoDistinct(String s) {
+
+		int right = 0, left = 0, len = 0, counter = 0;
+		Map<Character, Integer> map = new HashMap<>();
+		while (right < s.length()) {
+			
+			char charAtRight = s.charAt(right);
+			map.put(charAtRight, map.getOrDefault(charAtRight, 0) + 1);
+			if (map.get(charAtRight) == 1) { // new char
+				counter++;
+			}
+			right++;
+			
+			while (counter > 2) {
+				
+				char charAtLeft = s.charAt(left);
+
+				if (map.get(charAtLeft) == 1) {
+					counter--;
+				}
+				map.put(charAtLeft, map.get(charAtLeft) - 1);
+				left++;
+			}
+			len = Math.max(right - left, len);
+
+		}
+		return len;
+	}
+	
+	
+	   public int lengthOfLongestSubstringKDistinct(String s, int k) {
+	        
+			int right = 0, left = 0, len = 0, counter = 0;
+			Map<Character, Integer> map = new HashMap<>();
+			while (right < s.length()) {
+				
+				char charAtRight = s.charAt(right);
+				map.put(charAtRight, map.getOrDefault(charAtRight, 0) + 1);
+				if (map.get(charAtRight) == 1) { // new char
+					counter++;
+				}
+				right++;
+				
+				while (counter > k) {
+					
+					char charAtLeft = s.charAt(left);
+
+					if (map.get(charAtLeft) == 1) {
+						counter--;
+					}
+					map.put(charAtLeft, map.get(charAtLeft) - 1);
+					left++;
+				}
+				len = Math.max(right - left, len);
+
+			}
+			return len;
+	    }
+
+	   
+	   
+	
+
+	public static boolean checkInclusion(String s1, String s2) {
+
+		if (s1.length() > s2.length()) {
+			return false;
+		}
+
+		Map<Character, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < s1.length(); i++) {
+			map.put(s1.charAt(i), map.getOrDefault(s1.charAt(i), 0) + 1);
+		}
+
+		int left = 0;
+		int right = 0;
+
+		int counter = map.size();
+
+		while (right < s2.length()) {
+
+			char charAtRight = s2.charAt(right);
+
+			if (map.containsKey(charAtRight)) {
+				map.put(charAtRight, map.get(charAtRight) - 1);
+				if (0 == map.get(charAtRight)) {
+					counter--;
+				}
+			}
+
+			right++;
+
+			while (counter == 0) {
+				char charAtLeft = s2.charAt(left);
+
+				if (map.containsKey(charAtLeft)) {
+
+					map.put(charAtLeft, map.get(charAtLeft) + 1);
+					if (map.get(charAtLeft) > 0)
+						counter++;
+
+				}
+
+				if (right - left == s1.length()) {
+					return true;
+				}
+
+				left++;
+			}
+		}
+		return false;
+	}
+
+	public int maxDistToClosestV2(int[] seats) {
+
+		List<Integer> arr_list = new ArrayList<>();
+
+		for (int i = 0; i < seats.length; i++) {
+			if (seats[i] == 1) {
+				arr_list.add(i);
+			}
+		}
+
+		int max = arr_list.get(0);
+
+		for (int i = 0; i < arr_list.size() - 1; i++) {
+
+			int temp = (arr_list.get(i + 1) - arr_list.get(i)) / 2;
+			max = Math.max(max, temp);
+		}
+
+		int temp = seats.length - arr_list.get(arr_list.size() - 1) - 1;
+		max = Math.max(max, temp);
+
+		return max;
+	}
+	
+	
+	public int maxDistToClosest(int[] seats) {
+
+		int last = -1;
+		int max = 0;
+		for (int i = 0; i < seats.length; i++) {
+
+			if (seats[i] == 1) {
+				max = last < 0 ? i : Math.max(max, (i - last) / 2);
+				last = i;
+			}
+
+			max = Math.max(max, seats.length - last - 1);
+
+		}
+
+		return max;
+	}
+
+	static public List<List<Integer>> threeSum(int[] nums, int target) {
+		List<List<Integer>> result = new ArrayList<>();
+
+		Arrays.sort(nums);
+
+		for (int i = 0; i < nums.length; i++) {
+
+			if (i != 0 && nums[i] == nums[i - 1]) {
+				continue;
+			}
+
+			int p = i + 1;
+			int q = nums.length - 1;
+
+			while (p < q) {
+
+				if (nums[i] + nums[p] + nums[q] == target) {
+
+					List<Integer> list = new ArrayList<>();
+					list.add(nums[i]);
+					list.add(nums[p]);
+					list.add(nums[q]);
+
+					result.add(list);
+
+					while (p + 1 < nums.length && nums[p] == nums[p + 1]) {
+						p++;
+					}
+
+					while (q > 0 && nums[q] == nums[q - 1]) {
+						q--;
+					}
+
+					p++;
+					q--;
+
+				} else if (nums[i] + nums[p] + nums[q] > target) {
+					q--;
+				} else if (nums[i] + nums[p] + nums[q] < target) {
+					p++;
+				}
+			}
+		}
+
+		return result;
+	}
+	
+	
+	public static void main(String[] args) {
+
+		System.err.println(threeSumMulti(new int[] { 0, 0, 0, 0, 0 }, 0));
+		nCr(3000, 3);
+		return;
+
+	}
+
+	static public int threeSumMulti(int[] A, int target) {
+
+		int[] count = new int[101];
+
+		for (int i = 0; i < A.length; i++) {
+			count[A[i]]++;
+		}
+
+		List<List<Integer>> result = threeSum(A, target);
+
+		// System.out.println(result);
+
+		long r = 0;
+
+		for (List<Integer> set : result) {
+
+			Map<Integer, Integer> map = new HashMap<>();
+
+			for (Integer i : set) {
+				map.put(i, map.getOrDefault(i, 0) + 1);
+			}
+
+			int ways = 1;
+
+			for (Integer i : map.keySet()) {
+				ways = nCr(count[i], map.get(i)) * ways;
+			}
+
+			r = r + ways;
+		}
+		return (int) (r % 1000000007);
+	}
+
+	static int nCr(int n, int r) {
+		System.out.println(n + "  " + r);
+		
+		int p = 13; 
+		    System.out.println("Value of nCr % p is "+nCrModpLucas(n, r, p)); 
+
+		//return fact(n) / (fact(r) * fact(n - r));
+		    return 0;
+	}
+
+// Returns factorial of n 
+	static int fact(int n) {
+		System.out.println(n);
+
+		if (n == 0)
+			return 1;
+		int res = 1;
+		for (int i = 2; i <= n; i++)
+			res = res * i;
+		
+		return res;
+	} 
+	
+	static int nCrModpDP(int n, int r, int p) 
+	{ 
+	    // The array C is going to store last row of 
+	    // pascal triangle at the end. And last entry 
+	    // of last row is nCr 
+	    int[] C=new int[r+1]; 
+	  
+	    C[0] = 1; // Top row of Pascal Triangle 
+	  
+	    // One by constructs remaining rows of Pascal 
+	    // Triangle from top to bottom 
+	    for (int i = 1; i <= n; i++) 
+	    { 
+	        // Fill entries of current row using previous 
+	        // row values 
+	        for (int j = Math.min(i, r); j > 0; j--) 
+	  
+	            // nCj = (n-1)Cj + (n-1)C(j-1); 
+	            C[j] = (C[j] + C[j-1])%p; 
+	    } 
+	    return C[r]; 
+	} 
+	  
+	// Lucas Theorem based function that returns nCr % p 
+	// This function works like decimal to binary conversion 
+	// recursive function. First we compute last digits of 
+	// n and r in base p, then recur for remaining digits 
+	static int nCrModpLucas(int n, int r, int p) 
+	{ 
+	// Base case 
+	if (r==0) 
+	    return 1; 
+	  
+	// Compute last digits of n and r in base p 
+	int ni = n%p; 
+	int ri = r%p; 
+	  
+	// Compute result for last digits computed above, and 
+	// for remaining digits. Multiply the two results and 
+	// compute the result of multiplication in modulo p. 
+	return (nCrModpLucas(n/p, r/p, p) * // Last digits of n and r 
+	        nCrModpDP(ni, ri, p)) % p; // Remaining digits 
+	} 
+	  
+	
+	
+	
+  
 
 }

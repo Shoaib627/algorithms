@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 public class LeetCodeV11 {
 
@@ -495,12 +497,7 @@ public class LeetCodeV11 {
 	}
 	
 	
-	
-	public static void main(String[] args) {
 
-		System.out.println(subarraysDivByK(new int[] { 4, 5, 0, -2, -3, 1 }, 5));
-
-	}
 	
 	public static int subarraysDivByK(int[] A, int K) {
 		int sum = 0;
@@ -563,5 +560,109 @@ public class LeetCodeV11 {
 
 		}
 		return result;
+	}
+	
+	
+
+
+	public static int numMatchingSubseq(String S, String[] words) {
+
+		int count = 0;
+
+		for (String word : words) {
+			if (isSubsequence(S, word)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public static boolean isSubsequence(String S, String word) {
+
+		int i = 0;
+		int j = 0;
+
+		while (j < word.length()) {
+
+			while (i < S.length() && S.charAt(i) != word.charAt(j)) {
+				i++;
+			}
+
+			if (i >= S.length()) {
+				break;
+			}
+
+			j++;
+			i++;
+
+		}
+
+		return j == word.length();
+	}
+	
+	
+	public int[] advantageCount(int[] A, int[] B) {
+
+		TreeMap<Integer, Integer> map = new TreeMap<>();
+
+		for (int i : A) {
+			map.put(i, map.getOrDefault(i, 0) + 1);
+		}
+
+		int[] C = new int[A.length];
+
+		int index = 0;
+
+		for (int i : B) {
+
+			Entry<Integer, Integer> entry = map.higherEntry(i);
+
+			if (entry == null) {
+				entry = map.firstEntry();
+			}
+
+			C[index] = entry.getKey();
+
+			if (entry.getValue() == 1) {
+				map.remove(entry.getKey());
+			}
+
+			else {
+				int e = entry.getValue() - 1;
+				map.put(entry.getKey(), e);
+			}
+			index++;
+		}
+		return C;
+	}
+
+	// 0,0,1,1,1,1,2,3,3
+
+	public static void main(String[] args) {
+		System.out.println(removeDuplicates(new int[] { 0, 0, 0, 1, 1 }));
+	}
+
+	public static int removeDuplicates(int[] nums) {
+		int slowPtr = 0;
+		boolean can_move = true;
+		for (int fastPtr = 1; fastPtr < nums.length; fastPtr++) {
+
+			if (nums[fastPtr] != nums[slowPtr]) {
+				nums[slowPtr++] = nums[fastPtr];
+				can_move = true;
+			}
+
+			else if (slowPtr > 0 && nums[slowPtr] == nums[slowPtr - 1] && can_move) {
+				slowPtr++;
+				can_move = false;
+			}
+
+			else if (slowPtr == 0 && nums[slowPtr] == nums[slowPtr + 1] && can_move) {
+				slowPtr++;
+				can_move = false;
+			}
+		}
+		System.out.println(Arrays.toString(nums));
+		return slowPtr + 1;
 	}
 }

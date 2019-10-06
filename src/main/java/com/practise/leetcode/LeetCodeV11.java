@@ -2,12 +2,22 @@ package com.practise.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class LeetCodeV11 {
 
@@ -638,9 +648,7 @@ public class LeetCodeV11 {
 
 	// 0,0,1,1,1,1,2,3,3
 
-	public static void main(String[] args) {
-		System.out.println(removeDuplicates(new int[] { 0, 0, 0, 1, 1 }));
-	}
+
 
 	public static int removeDuplicates(int[] nums) {
 		int slowPtr = 0;
@@ -664,5 +672,557 @@ public class LeetCodeV11 {
 		}
 		System.out.println(Arrays.toString(nums));
 		return slowPtr + 1;
+	}
+	
+
+	public boolean uniqueOccurrences(int[] arr) {
+
+		int[] A = new int[2001];
+
+		for (int i = 0; i < arr.length; i++) {
+			A[arr[i] + 1000]++;
+		}
+
+		int[] B = new int[2001];
+
+		for (int i = 0; i < A.length; i++) {
+			if (A[i] != 0) {
+				B[A[i]]++;
+				if (B[A[i]] > 1) {
+					return false;
+
+				}
+			}
+		}
+		return true;
+	}
+	
+	
+
+	
+	public List<Integer> powerfulIntegers(int x, int y, int bound) {
+
+		Set<Integer> set = new HashSet<>();
+
+		int x_index = 0;
+
+		int result = 0;
+
+		while (bound >= result) {
+
+			result = (int) (Math.pow(x, x_index) + Math.pow(y, 0));
+			if (result > bound) {
+				break;
+			} else {
+				set.add(result);
+			}
+			if (x == 1) {
+				break;
+			}
+			x_index++;
+		}
+
+		int y_index = 0;
+
+		result = 0;
+
+		while (bound >= result) {
+
+			result = (int) (Math.pow(x, 0) + Math.pow(y, y_index));
+			if (result > bound) {
+				break;
+			} else {
+				set.add(result);
+			}
+
+			if (y == 1) {
+				break;
+			}
+			y_index++;
+		}
+
+		for (int i = 1; i <= y_index; i++) {
+
+			for (int j = 1; j <= x_index; j++) {
+				result = (int) (Math.pow(x, j) + Math.pow(y, i));
+
+				if (result <= bound) {
+					set.add(result);
+				} else {
+					break;
+				}
+
+			}
+		}
+
+		return new ArrayList<>(set);
+	}
+	
+	
+
+	
+	public static int compress(char[] chars) {
+
+		int index = 0;
+		int count = 0;
+
+		while (index < chars.length) {
+
+			int begin = index;
+			while (index < chars.length && chars[index] == chars[begin]) {
+				index++;
+				count++;
+			}
+
+			if (count > 1) {
+
+				int i = begin + 1;
+				String str = String.valueOf(count);
+
+				for (int j = 0; j < str.length(); j++) {
+
+					chars[i] = str.charAt(j);
+					i++;
+				}
+
+				for (int k = i; k < index; k++) {
+					chars[k] = '!';
+				}
+
+			}
+			count = 0;
+		}
+
+		// move zeros to end
+		
+		int zero_index = -1;
+
+		for (int i = 0; i < chars.length; i++) {
+			if (chars[i] == '!') {
+				zero_index = i;
+				break;
+			}
+		}
+		
+		if (zero_index == -1) {
+			return chars.length;
+		}
+
+		for (int i = 0; i < chars.length; i++) {
+
+			if (zero_index < i && i < chars.length && chars[i] != '!') {
+
+				chars[zero_index] = chars[i];
+				chars[i] = '!';
+				while(chars[zero_index] != '!') {
+					zero_index++;
+				}
+			}
+
+		}
+
+		return zero_index;
+	}
+	
+	public int numberOfBoomerangs(int[][] points) {
+
+		int count = 0;
+		for (int i = 0; i < points.length; i++) {
+
+			for (int j = i + 1; j  < points.length; j++) {
+
+				for (int k = j + 1; k < points.length; k++) {
+
+					double d1 = Math.sqrt((points[j][0] - points[i][0]) * (points[j][0] - points[i][0]) + (points[j][1] - points[i][1]) * (points[j][1] - points[i][1]));
+
+					double d2 = Math.sqrt((points[k][0] - points[i][0]) * (points[k][0] - points[i][0]) + (points[k][1] - points[i][1]) * (points[k][1] - points[i][1]));
+
+					if (d1 == d2) {
+						System.out.println(Arrays.toString(points[i]) + "  " + Arrays.toString(points[j]) + "  " + Arrays.toString(points[k]));
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+	
+	// "(u(love)i)"
+
+	public static String reverseParentheses(String s) {
+
+		Stack<Character> stack = new Stack<>();
+		for (int i = 0; i < s.length(); i++) {
+
+			if (s.charAt(i) != ')') {
+				stack.push(s.charAt(i));
+			}
+
+			else {
+
+				if (s.lastIndexOf(")") != i) {
+					Queue<Character> temp = new LinkedList<>();
+
+					while (!stack.isEmpty() && stack.peek() != '(') {
+						temp.add(stack.pop());
+					}
+
+					if (stack.peek() == '(') {
+						stack.pop();
+					}
+
+					while (!temp.isEmpty()) {
+						stack.add(temp.poll());
+					}
+
+				}
+				else {
+					System.out.println(stack);
+				}
+			}
+
+		}
+		StringBuffer b = new StringBuffer();
+
+		while (!stack.isEmpty() && stack.peek() != '(') {
+			b.append(stack.pop());
+		}
+
+		return b.toString();
+
+	}
+	
+	public static String addBoldTag(String S, String[] words) {
+
+		List<int[]> intervalList = new ArrayList<>();
+		Map<Integer, List<String>> map = new HashMap<>();
+		SortedSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
+
+		for (String word : words) {
+			List<String> list = map.get(word.length());
+			if (list == null) {
+				list = new ArrayList<>();
+			}
+			list.add(word);
+			map.put(word.length(), list);
+
+			set.add(word.length());
+		}
+
+		for (int i = 0; i < S.length(); i++) {
+			Iterator<Integer> iterator = set.iterator();
+
+			while (iterator.hasNext()) {
+
+				int l = iterator.next();
+
+				List<String> list = map.get(l);
+
+				if ((i + l - 1) < S.length() && list.contains(S.substring(i, i + l))) {
+					intervalList.add(new int[] { i, i + l - 1 });
+					break;
+				}
+			}
+		}
+
+		if (intervalList.isEmpty()) {
+			return S;
+		}
+
+		List<int[]> mergedList = new ArrayList<>();
+
+		for (int[] interval : intervalList) {
+
+			if (mergedList.isEmpty() || mergedList.get(mergedList.size() - 1)[1] + 1 < interval[0]) {
+				mergedList.add(interval);
+			}
+
+			else {
+				mergedList.get(mergedList.size() - 1)[1] = Math.max(mergedList.get(mergedList.size() - 1)[1],
+						interval[1]);
+			}
+		}
+
+		StringBuffer s = new StringBuffer();
+		Integer prev_index = -1;
+
+		if (mergedList.get(0)[0] != 0) {
+			prev_index = 0;
+		}
+
+		for (int[] ilist : mergedList) {
+			if (prev_index > -1) {
+				s.append(S.substring(prev_index, ilist[0]));
+			}
+			if (ilist[0] != -1) {
+				s.append("<b>").append(S.substring(ilist[0], ilist[1] + 1)).append("</b>");
+				prev_index = ilist[1] + 1;
+			}
+		}
+		if (prev_index < S.length()) {
+			s.append(S.substring(prev_index, S.length()));
+		}
+		return s.toString();
+	}
+
+	public String validIPAddress(String IP) {
+
+		if (isValidIPv4(IP)) {
+			return "IPv4";
+		}
+
+		if (isValidIPv6(IP)) {
+			return "IPv6";
+		}
+
+		return "Neither";
+	}
+
+	boolean isValidIPv4(String IP) {
+
+		if (IP.length() > 15 && IP.length() < 7) {
+			return false;
+		}
+
+		String[] A = IP.split("\\.", -1);
+
+		if (A.length != 4) {
+			return false;
+		}
+
+		for (String s : A) {
+
+			if (s.startsWith("0")) {
+				return false;
+			}
+
+			try {
+				int num = Integer.parseInt(s);
+
+				if (num < 0 || num > 255) {
+					return false;
+				}
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	boolean isValidIPv6(String IP) {
+
+		if (IP.length() > 39 && IP.length() < 15) {
+			return false;
+		}
+
+		String[] A = IP.split(":", -1);
+
+		if (A.length != 8) {
+			return false;
+		}
+
+		for (String s : A) {
+
+			if (s.length() > 4 || s.length() < 1) {
+				return false;
+			}
+
+			try {
+				Integer.parseInt(s, 16);
+
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public String countAndSay(int n) {
+
+		String str = "1";
+
+		for (int i = 2; i <= n; i++) {
+
+			System.out.println(str);
+			char[] A = str.toCharArray();
+			StringBuffer b = new StringBuffer();
+
+			char c = A[0];
+			int count = 1, index = 1;
+
+			while (index < A.length) {
+System.out.println(A[index]);
+				if (A[index] == c) {
+					index++;
+					count++;
+				} else {
+					b.append(String.valueOf(count)).append(c);
+					c = A[index];
+					count = 1;
+				}
+			}
+			
+			if(count == 1) {
+				b.append(String.valueOf(count)).append(c);
+			}
+
+			str = b.toString();
+		}
+		return str;
+	}
+	
+	
+	public String getHint(String secret, String guess) {
+
+		int[] A = new int[10];
+		int[] B = new int[10];
+
+		int cows = 0, bulls = 0;
+		for (int i = 0; i < secret.length(); i++) {
+
+			if (secret.charAt(i) == guess.charAt(i)) {
+				cows++;
+			} else {
+				A[Character.getNumericValue(secret.charAt(i))]++;
+				B[Character.getNumericValue(guess.charAt(i))]++;
+			}
+		}
+
+		for (int i = 0; i <= 9; i++) {
+			bulls += Math.min(A[i], B[i]);
+		}
+
+		StringBuffer s = new StringBuffer();
+		s.append(cows).append('A').append(bulls).append('B');
+		return s.toString();
+	}
+	
+	
+	
+	public List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
+
+		int min = Math.min(Math.min(arr1.length, arr2.length), arr3.length);
+		int a = 0, b = 0, c = 0;
+
+		List<Integer> list = new ArrayList<>();
+
+		while (a < min && b < min & c < min) {
+
+			if (arr1[a] == arr2[b] && arr1[a] == arr3[c]) {
+				list.add(arr1[a]);
+				a++;
+				b++;
+				c++;
+			} else {
+
+				if (arr1[a] > arr2[b]) {
+
+					if (arr2[b] > arr3[c])
+						c++;
+					else
+						b++;
+				}
+
+				else {
+
+					if (arr1[a] > arr3[c])
+						c++;
+					else
+						a++;
+				}
+
+			}
+		}
+		return list;
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(leastInterval(new char[] { 'A', 'B', 'B', 'B' }, 1));
+	}
+
+	
+	static class SortComparator implements Comparator<Character> {
+		private final Map<Character, Integer> freqMap;
+
+		// can pass values to comparator via constructor
+		SortComparator(Map<Character, Integer> tFreqMap) {
+			this.freqMap = tFreqMap;
+		}
+
+		@Override
+		public int compare(Character k1, Character k2) {
+
+			int freqCompare = freqMap.get(k2).compareTo(freqMap.get(k1));
+
+			int valueCompare = k1.compareTo(k2);
+
+			if (freqCompare == 0)
+				return valueCompare;
+			else
+				return freqCompare;
+		}
+	}
+
+	public static int leastInterval(char[] tasks, int n) {
+
+		int[] A = new int[26];
+
+		Map<Character, Integer> map = new HashMap<>();
+		List<Character> outputArray = new ArrayList<>();
+
+		for (Character current : tasks) {
+			int count = map.getOrDefault(current, 0);
+			map.put(current, count + 1);
+			outputArray.add(current);
+		}
+
+		SortComparator comp = new SortComparator(map);
+
+		Collections.sort(outputArray, comp);
+
+		Queue<Character> queue = new LinkedList<>();
+		int interval = 0;
+
+		char prev = outputArray.get(0);
+		queue.add(prev);
+		A[prev - 'A']++;
+
+		for (int i = 1; i < outputArray.size(); i++) {
+			char curr = outputArray.get(i);
+			if (curr != prev) {
+				queue.add(curr);
+			}
+			A[curr - 'A']++;
+			prev = curr;
+		}
+
+		int[] B = new int[26];
+		while (!queue.isEmpty()) {
+
+			Character task = queue.poll();
+			
+			System.out.println(task);
+			interval++;
+
+			int gap = interval - B[task - 'A'] - 1;
+
+			if (B[task - 'A'] != 0 && gap < n) {
+				interval += n - gap;
+			}
+
+			B[task - 'A'] = interval;
+
+			A[task - 'A']--;
+			if (A[task - 'A'] > 0) {
+				queue.add(task);
+			}
+		}
+
+		return interval;
 	}
 }

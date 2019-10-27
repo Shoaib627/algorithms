@@ -1141,9 +1141,6 @@ System.out.println(A[index]);
 	}
 	
 	
-	public static void main(String[] args) {
-		System.out.println(leastInterval(new char[] { 'A', 'B', 'B', 'B' }, 1));
-	}
 
 	
 	static class SortComparator implements Comparator<Character> {
@@ -1225,4 +1222,109 @@ System.out.println(A[index]);
 
 		return interval;
 	}
+	
+	
+
+	public static List<Integer> firstTwoRepeatedElements(List<Integer> A) {
+
+		Map<Integer, Integer> map = new HashMap<>();
+
+		for (int num : A) {
+
+			Integer val = map.get(num);
+			if (val == null) {
+				val = 0;
+			}
+			map.put(num, val + 1);
+		}
+
+		ArrayList<Integer> B = new ArrayList<>();
+
+		int index = 0;
+		for (int num : A) {
+
+			if (map.get(num) == 1) {
+				B.add(index, num);
+				index++;
+			}
+
+			if (index > 1) {
+				break;
+			}
+		}
+		return B;
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		System.out.println(sortDates(Arrays.asList("05 Apr 2019", "01 Apr 2019")));
+	}
+	
+	
+	public static List<String> sortDates(List<String> dates) {
+
+		Map<String, Integer> map = new HashMap<>();
+
+		map.put("Jan", 1);
+		map.put("Feb", 2);
+		map.put("Mar", 3);
+		map.put("Apr", 4);
+		map.put("May", 5);
+		map.put("Jun", 6);
+		map.put("Jul", 7);
+		map.put("Aug", 8);
+		map.put("Sep", 9);
+		map.put("Oct", 10);
+		map.put("Nov", 11);
+		map.put("Dec", 12);
+
+		Collections.sort(dates, new DateComparator(map));
+
+		return dates;
+	}
+
+	static class DateComparator implements Comparator<String> {
+
+		Map<String, Integer> map;
+
+		DateComparator(Map<String, Integer> map) {
+			this.map = map;
+		}
+
+		@Override
+		public int compare(String o1, String o2) {
+
+			String[] A = o1.split(" ");
+			String[] B = o2.split(" ");
+
+			if (Integer.parseInt(A[2]) > Integer.parseInt(B[2])) {
+				return 1;
+			}
+
+			else if (Integer.parseInt(A[2]) < Integer.parseInt(B[2])) {
+				return -1;
+			}
+
+			else {
+
+				if (map.get(A[1]) > map.get(B[1])) {
+					return 1;
+				}
+
+				else if (map.get(A[1]) < map.get(B[1])) {
+					return -1;
+				}
+
+				else {
+
+					return Integer.compare(Integer.parseInt(A[0]), Integer.parseInt(B[0]));
+
+				}
+
+			}
+
+		}
+	}
+
 }

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class CodeForces {
@@ -23,21 +24,29 @@ public class CodeForces {
 	}
 
 	public static void solve(InputReader in, PrintWriter out) {
-		Integer num = in.nextInt();
+		Integer n = in.nextInt();
+		Integer m = in.nextInt();
 
 		int sum = 0;
+		
+		int[] A = new int[n];
 
-		for (int i = 0; i < num * num; i++) {
-			sum += in.nextInt();
+		for (int i = 0; i < n; i++) {
+			A[i] = in.nextInt();
+		}
+		
+		Arrays.sort(A);
+		
+		for (int p : A) {
+
+			if (p < 0 && m > 0) {
+				sum += p;
+				m--;
+			}
 		}
 
-		if (sum == 0) {
-			out.print("YES");
-		}
+		out.print(-sum);
 
-		else {
-			out.print("NO");
-		}
 	}
 
 	static class InputReader {
